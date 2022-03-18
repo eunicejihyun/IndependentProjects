@@ -1,0 +1,111 @@
+{% block content %}
+{% include "header.html" %}
+{% set order_id = request.args.get("order_id") %}
+
+<div class="container">
+    <div class="row main-row">
+
+
+
+
+
+        <!--MENU-->
+        <div class="col-md-7 no-padding left-side">
+            {% include "menu.html" %}
+        </div>
+
+        {% if request.args.get("item_id") is not none: %}
+        {% include "add-order-item.html" %}
+        {% endif %}
+
+
+        <!--RIGHT SIDE-->
+        <div class="col-md-5 right-side">
+            {% include "navbar.html" %}
+
+            <!--CONTENT-->
+            <h1 class="right-heading">
+                ORDER
+                <span class="settings-subheading"> {{ order.table.name }} - {{ order.customer_name }}</span>
+            </h1>
+
+            <div class="order-items">
+                <div class="container-fluid oi-container">
+
+                    {% if order.order_items|length == 0 %}
+                    Nothing yet!
+                    {% endif %}
+
+                    {% for x in order.order_items: %}
+                    <div class="row">
+                        <div class="col-md-1 order-item-quantity no-padding">
+                            {{ x.quantity }}
+                        </div>
+                        <div class="col-md-8 order-item-name">
+                            {{ x.item.name }}
+                            <a class="menu-buttons remove-button" href="{{url_for('delete_order_item', oi_id=x.id, order_id=order_id)}}">
+                                <i class="fas fa-times-circle"></i>
+                            </a>
+                        </div>
+                        <div class="col-md-3 order-item-price">
+                            {{ "$ %.2f"|format(x.subtotal) }}
+                        </div>
+                    </div>
+                    <div class="mod-row">
+                        <div class="col-md-8 offset-md-1">
+                            <span class="order-item-mods">
+                                {% for y in x.order_item_mods: %}
+                                {{ y.chosen_var }}
+                                {% if not loop.last %}
+                                ,
+                                {% endif %}
+                                {% endfor %}
+                            </span>
+                            <p class="order-item-notes">
+                                {{ x.notes }}
+                            </p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="container-fluid oi-bottom-container">
+                <div class="row oi-bottom-row">
+                    <div class="col-md-8 order-item-price">
+                        Total:
+                    </div>
+                    <div class="col-md-4 order-item-price">
+                        {{ "$ %.2f"|format( order.order_items | sum(attribute='subtotal') )}}
+                    </div>
+                </div>
+                <div class="row oi-bottom-row">
+                    <div class="col-md-4 offset-md-3">
+                        <a class="btn cancel-btn" href="{{ url_for('cancel_order', order_id=order.id) }}" type="button">
+                            Cancel
+                        </a>
+                    </div>
+                    <div class="col-md-4 offset-md-1">
+                        <a class="btn submit-btn" href="{{ url_for('submit_order', order_id=order.id) }}" type="button">
+                            Submit
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!--FLASH MESSAGES-->
+            <div class="flash-msg">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <span class="flashes"> {% for message in messages %}<p>{{ message }}</p>{% endfor %} </span>
+                {% endif %}
+                {% endwith %}
+            </div>
+            <!-- END FLASH MESSAGES-->
+
+
+            <!--END CONTENT-->
+        </div>
+    </div>
+</div>
+{% endblock %}

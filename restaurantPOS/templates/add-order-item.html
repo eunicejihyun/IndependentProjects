@@ -1,0 +1,127 @@
+<div class="oi-popup">
+
+    <h5 class="popup-title">
+        {{item.name}}
+
+        <span class="popup-price"> $ {{ item.price }} </span>
+        <a class="btn-close" href="{{ url_for('complete_order') }}" type="button"></a>
+    </h5>
+
+
+    {% set id = request.args.get("item_id") %}
+    {% set order_id = request.args.get("order_id") %}
+    <form action="{{ url_for('complete_order', item_id=id, order_id=order_id) }}" method="POST" novalidate>
+        {{ form.csrf_token }}
+
+        <div class="popup-body">
+            <div class="popup-description">
+                {{ item.description }}
+            </div>
+
+
+            <div class="container-fluid popup-container">
+
+                {% for mod in item.mods: %}
+                <div class="row">
+                    <div class="col-md-3 form-label popup-padding">
+                        {{ mod.name }}
+                    </div>
+                    <div class="col-md-7 form-field popup-padding ">
+
+                        {% if loop.index == 1: %}
+                        {{ form.mod1() }}
+                        {% for err in form.mod1.errors %}
+                        <p class="form-error-msg">{{ err }}</p>
+                        {% endfor %}
+
+                        {% elif loop.index == 2: %}
+                        {{ form.mod2() }}
+                        {% for err in form.mod2.errors %}
+                        <p class="form-error-msg">{{ err }}</p>
+                        {% endfor %}
+
+                        {% elif loop.index == 3: %}
+                        {{ form.mod3() }}
+                        {% for err in form.mod3.errors %}
+                        <p class="form-error-msg">{{ err }}</p>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+
+                {% for x in range(3 - item.mods|length): %}
+                <div class="row no-show">
+                    <div class="col-md-3 form-label popup-padding"> HIDDEN</div>
+                    <div class="col-md-6 form-field popup-padding ">
+
+                        {% if item.mods|length + loop.index == 1: %}
+                        {{ form.mod1() }}
+                        {% for err in form.mod1.errors %}
+                        <p class="form-error-msg">{{ err }}</p>
+                        {% endfor %}
+
+                        {% elif item.mods|length + loop.index == 2: %}
+                        {{ form.mod2() }}
+                        {% for err in form.mod2.errors %}
+                        <p class="form-error-msg">{{ err }}</p>
+                        {% endfor %}
+
+                        {% elif item.mods|length + loop.index == 3: %}
+                        {{ form.mod3() }}
+                        {% for err in form.mod3.errors %}
+                        <p class="form-error-msg">{{ err }}</p>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+
+
+                <div class="row">
+                    <div class="col-md-6 form-field no-padding">
+                        {{ form.notes(placeholder='Notes for the Chef') }}
+                        {% for err in form.notes.errors %}
+                        <p class="form-error-msg">{{ err }}</p>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <div class="container-fluid no-padding">
+                            <div class="row">
+                                <div class="col-md-6 form-label popup-padding">
+                                    Quantity
+                                </div>
+                                <div class="col-md-6 form-field popup-padding">
+                                    {{ form.quantity() }}
+                                    {% for err in form.notes.errors %}
+                                    <p class="form-error-msg">{{ err }}</p>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <center>
+                <!--FLASH MESSAGES-->
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <span class=flashes>
+                                    {% for message in messages %}
+                                    <p style="color:red; font-size: 14px;">{{ message }}</p>
+                                    {% endfor %}
+                                    </span>
+                {% endif %}
+                {% endwith %}
+            </center>
+
+        </div>
+
+        <!--ADD ORDER ITEM BUTTON-->
+        {{ form.add }}
+    </form>
+</div>

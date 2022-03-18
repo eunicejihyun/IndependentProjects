@@ -1,0 +1,464 @@
+:root {
+  font-size: 17px;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+td {
+  padding: 0.9rem 0.5rem 0 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+@media (min-width: 1400px) {
+  :root {
+    font-size: 20px;
+  }
+}
+
+.container {
+  margin: 0;
+  padding: 0;
+}
+
+.main-row {
+  width: 98vw;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* LEFT SIDE: MENU *****************************************************************************/
+/* MENU TABS */
+.menu-tabs {
+  padding: 5px 1% 0;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  background-color: #5463FF;
+  width: 100%;
+  z-index: 1;
+}
+
+@media (max-width: 766px) {
+  .menu-tabs {
+    width: 100%;
+  }
+}
+
+.nav-link {
+  color: black;
+  font-weight: bold;
+  background-color: #757eff;
+  margin: 0 5px;
+}
+
+.nav-link:hover {
+  color: white;
+}
+
+
+/* MENU */
+.left-side {
+position: relative;
+  height: 100vh;
+}
+
+.menu-box {
+  max-height: 100%;
+  overflow: auto;
+}
+
+.menu {
+  padding: 0 2%;
+  margin: 0;
+
+}
+
+.menu-section-header {
+  font-size: 1.5rem;
+  margin: 2rem 1rem 0;
+  font-family: 'Lora', serif;
+  color: #219F94;
+}
+
+hr {
+  margin: 0 auto 1rem;
+  width: 100%;
+}
+
+
+
+
+/* MENU ITEMS */
+
+
+
+
+
+
+.item {
+  width: 100%;
+  padding-left: 20px;
+}
+
+hr.dots {
+  border-top: 2px dotted #fefefe;
+  width: 95%;
+  position: relative;
+  top: -0.7rem;
+  z-index: -1;
+  margin: 0;
+}
+
+.item-name {
+  font-weight: bold;
+  padding-right: 10px;
+  font-size: 1.3rem;
+  background-color: white;
+}
+
+.menu-price {
+  font-size: 1.3rem;
+  background-color: white;
+  position: relative;
+  float: right;
+  margin: 0 0.8rem;
+  padding-left: 10px;
+}
+
+.menu-description {
+  font-size: 0.9rem;
+  margin-right: 5rem;
+}
+
+/* MENU BUTTONS */
+.menu-buttons {
+  font-size: 0.8rem;
+  padding: 0 5px;
+}
+
+.add-button {
+  color: #5463FF;
+}
+
+.remove-button {
+  color: red;
+}
+
+.edit-button {
+  color: green;
+}
+
+
+
+/* RIGHT SIDE ********************************************************************************************************/
+.right-side {
+  float: right;
+  height: 100vh;
+  border-left: 2px solid #5463FF;
+}
+
+.navigation {
+  padding: 5px 1% 0;
+  margin-bottom: 1rem;
+  background-color: white;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.navitem {
+  font-size: 1.5rem;
+  padding: 0.5rem 2.5rem;
+  color: #5463FF;
+}
+
+.right-heading {
+  font-family: 'Lora', serif;
+  font-weight: bold;
+  padding-bottom: 0.5rem;
+}
+
+/* FORMS GENERAL SETTINGS */
+#submit, .submit-btn, .cancel-btn {
+  background-color: #5463FF;
+  color: white;
+  padding: 2px 2.5rem;
+  border: 0;
+  border-radius: 5px;
+}
+
+/* SETTINGS */
+
+.current-data {
+  margin: 5% 10%;
+  position: relative;
+  height: 10rem;
+}
+
+
+/* This makes the order item list scrollable */
+.current-data-list {
+  max-height: 100%;
+  overflow: auto;
+  border: 0.8rem solid #F3F5FF;
+  border-left: 0;
+  background-color: #F3F5FF;
+}
+
+
+.settings-data {
+  padding-left: 10%;
+}
+
+
+
+
+
+.settings-subheading {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.1rem;
+  font-weight: normal;
+}
+
+.next-page {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  text-decoration: none;
+}
+
+.next-btn {
+  background-color: #219F94;
+  color: white;
+}
+
+.login-form, .start-order-form {
+  margin: 30% 15% 1rem;
+}
+
+.user-form, .role-table-form, .category-form {
+    margin: 5% 5%;
+}
+
+.form-label {
+  text-align: right;
+  font-weight: bold;
+}
+
+#category, #section, #role, #table {
+  height: 2rem;
+  width: 100%;
+}
+
+#type1, #type2, #type3 {
+  float: right;
+  width: 8rem;
+  text-align: right;
+}
+
+#variation1, #variation2, #variation3 {
+  width: 100%;
+}
+
+/* ORDER FORM */
+.order-logout {
+  float: right;
+  color: red;
+  text-decoration: none;
+  font-weight: normal;
+}
+
+.start-order-user {
+  color: #219F94;
+  font-weight: bold;
+}
+
+/* ADD ORDER ITEM */
+
+.oi-popup {
+  background-color: #F3F5FF;
+  padding: 20px 20px 3rem;
+  position: fixed;
+  top: 20%;
+  left: 20%;
+  width: 35%;
+}
+
+.btn-close {
+  float: right;
+  font-size: 1rem;
+}
+
+.popup-title {
+  font-weight: bold;
+  font-size: 1.7rem;
+}
+
+.popup-body {
+  padding-top: 0.5rem 0;
+}
+
+#quantity {
+  width: 5rem;
+}
+
+#notes {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  width: 100%;
+  height: 120%;
+}
+
+#mod1, #mod2, #mod3 {
+  width: 100%;
+}
+
+.popup-price {
+  font-size: 1.2rem;
+  color: red;
+  text-align: right;
+  font-weight: normal;
+  padding-left: 1rem;
+}
+
+#add {
+  background-color: #219F94;
+  color: white;
+  padding: 2px 2.5rem;
+  border: 0;
+  border-radius: 5px;
+  bottom: 20px;
+  position: absolute;
+  right: 25px;
+}
+
+.popup-padding {
+  padding: 8px;
+}
+
+.no-padding {
+  padding: 0;
+}
+
+.center {
+  text-align: center;
+}
+
+.no-show {
+  display: none;
+}
+
+/* MAIN ORDER VIEW */
+
+.order-items {
+  left: 5%;
+  width: 90%;
+  position: relative;
+  height: 65vh;
+}
+/* This makes the order item list scrollable */
+.oi-container {
+  max-height: 100%;
+  overflow: auto;
+  border: 0.8rem solid #F3F5FF;
+  border-left: 0;
+  background-color: #F3F5FF;
+}
+
+.order-item-name {
+  font-weight: 600;
+}
+
+.mod-row {
+  padding-bottom: 12px;
+}
+
+.order-item-quantity {
+  text-align: right;
+  font-weight: bold;
+}
+
+.order-item-notes {
+  color: #219F94;
+}
+
+.order-item-mods {
+  color: #5463FF;
+}
+
+.order-item-price {
+  text-align: right;
+  padding-left: 0;
+  font-weight: bold;
+}
+
+.oi-bottom-container {
+  border-top: 1px solid black;
+  padding: 0.8rem 3rem;
+  width: 90%;
+  position: relative;
+}
+
+.flash-msg, .form-error-msg {
+  text-align: center;
+  color:red;
+  font-size: 0.8rem;
+  padding: 0;
+}
+
+.oi-bottom-row {
+  padding: 5px 0;
+}
+
+.cancel-btn {
+  background-color: red;
+}
+
+.form-error-msg {
+  margin: 0;
+}
+
+.popup-description {
+  font-size: 0.8rem;
+  padding: 0.4rem 0 1rem;
+}
+
+.setup {
+  font-size: 1.5rem;
+  margin: 20% 10% 1rem;
+}
+
+/* SHOW ORDERS */
+
+.show-orders {
+  position: relative;
+  height: 70vh;
+}
+
+.show-orders-data {
+  max-height: 100%;
+  overflow: auto;
+  border: 0.8rem solid #F3F5FF;
+  border-left: 0;
+  background-color: #F3F5FF;
+}
+
+.orders-row {
+  padding: 15px 0 0;
+}
+
+.orders-header {
+  font-weight: bold;
+  padding: 2px 0;
+  border-bottom: 1px solid black;
+}

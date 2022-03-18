@@ -1,0 +1,163 @@
+{% block content %}
+{% include "header.html" %}
+
+<div class="container">
+    <div class="row main-row">
+
+        <!--MENU-->
+        <div class="col-md-7 no-padding left-side">
+            {% include "menu.html" %}
+        </div>
+
+        <!--RIGHT SIDE-->
+        <div class="col-md-5 right-side">
+            {% include "navbar.html" %}
+
+
+            <!--CONTENT-->
+            <h1 class="right-heading">
+                SETTINGS
+                <span class="settings-subheading">Update Menu</span>
+            </h1>
+
+            <div class="item-form">
+
+                {% if 'update' in url_for(request.endpoint): %}
+                <form action="{{ url_for('add_item') }}" method="POST" novalidate>
+
+                    {% else: %}
+                    {% set id = request.args.get("item_id") %}
+                    <form action="{{ url_for('edit_menu_item', item_id=id) }}" method="POST" novalidate>
+                        {% endif %}
+
+                    {{ form.csrf_token }}
+                    <table>
+                        <tr>
+                            <td class="form-label">Item Name</td>
+                            <td class="form-field">
+                                {{ form.name(size=35) }}
+                                {% for err in form.name.errors %}
+                                <p class="form-error-msg">{{ err }}</p>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="form-label">Price</td>
+                            <td class="form-field">
+                                {{ form.price(size=35) }}
+                                {% for err in form.price.errors %}
+                                <p class="form-error-msg">{{ err }}</p>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="form-label">Category</td>
+                            <td class="form-field">
+                                {{ form.category() }}
+                                {% for err in form.category.errors %}
+                                <p class="form-error-msg">{{ err }}</p>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="form-label">Section</td>
+                            <td class="form-field">
+                                {{ form.section() }}
+                                {% for err in form.section.errors %}
+                                <p class="form-error-msg">{{ err }}</p>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="form-label">Description</td>
+                            <td class="form-field">
+                                {{ form.description(size=35) }}
+                                {% for err in form.description.errors %}
+                                <p class="form-error-msg">{{ err }}</p>
+                                {% endfor %}
+                            </td>
+                        </tr>
+
+                            <tr>
+                                <td class="form-field">
+                                    {{ form.type1(size=35, placeholder='i.e. Flavor') }}
+                                    {% for err in form.type1.errors %}
+                                    <p class="form-error-msg">{{ err }}</p>
+                                    {% endfor %}
+                                </td>
+                                <td class="form-field">
+                                    {{ form.variation1(size=35, placeholder='i.e. Coffee, Matcha') }}
+                                    {% for err in form.variation1.errors %}
+                                    <p class="form-error-msg">{{ err }}</p>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="form-field">
+                                    {{ form.type2(size=35, placeholder='i.e. Sweetness') }}
+                                    {% for err in form.type2.errors %}
+                                    <p class="form-error-msg">{{ err }}</p>
+                                    {% endfor %}
+                                </td>
+                                <td class="form-field">
+                                    {{ form.variation2(size=35, placeholder='i.e. Lightly Sweet, Sweet, Very Sweet') }}
+                                    {% for err in form.variation2.errors %}
+                                    <p class="form-error-msg">{{ err }}</p>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="form-field">
+                                    {{ form.type3(size=35, placeholder='i.e. Sides') }}
+                                    {% for err in form.type3.errors %}
+                                    <p class="form-error-msg">{{ err }}</p>
+                                    {% endfor %}
+                                </td>
+                                <td class="form-field">
+                                    {{ form.variation3(size=35, placeholder='i.e. Ketchup, Mustard') }}
+                                    {% for err in form.variation3.errors %}
+                                    <p class="form-error-msg">{{ err }}</p>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+
+                        <tr>
+                            <td></td>
+                            <td>
+                                <!--SUBMIT BUTTON-->
+                                {{ form.submit }}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2">
+                                <!--FLASH MESSAGES-->
+                                <div class="flash-msg">
+                                    {% with messages = get_flashed_messages() %}
+                                    {% if messages %}
+                                    <span class="flashes"> {% for message in messages %}<p>{{ message }}</p>{% endfor %} </span>
+                                    {% endif %}
+                                    {% endwith %}
+                                </div>
+                                <!-- END FLASH MESSAGES-->
+                            </td>
+                        </tr>
+
+                    </table>
+                </form>
+
+            </div>
+
+            <a class="next-page" href="{{ url_for('start_order') }}">
+                <button type="button" class="btn next-btn">
+                    Create Order
+                    <i class="fas fa-angle-double-right"></i>
+                </button>
+            </a>
+            <!--END CONTENT-->
+
+
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% block content %}
+{% include "header.html" %}
+
+<div class="container">
+    <div class="row main-row">
+
+        <!--MENU-->
+        <div class="col-md-7 no-padding left-side">
+            {% include "menu.html" %}
+        </div>
+
+        <!--RIGHT SIDE-->
+        <div class="col-md-5 right-side">
+
+            <!--CONTENT-->
+            <div class="login-form">
+                <h1 class="right-heading"> LOGIN </h1>
+
+                <form action="{{ url_for('login') }}" method="POST" novalidate>
+                    {{ form.csrf_token }}
+                    <p>
+                        {{ form.employee_id(size=30, placeholder='Employee ID') }}
+                        {% for err in form.employee_id.errors %}
+                        <span style="color:red">{{ err }}</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{ form.password(size=30, placeholder='Password') }}
+                        {% for err in form.password.errors %}
+                        <span style="color:red">{{ err }}</span>
+                        {% endfor %}
+                    </p>
+                    {{ form.submit }}
+                </form>
+            </div>
+
+            <!--FLASH MESSAGES-->
+            <div class="flash-msg">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <span class="flashes"> {% for message in messages %}<p>{{ message }}</p>{% endfor %} </span>
+                {% endif %}
+                {% endwith %}
+            </div>
+            <!-- END FLASH MESSAGES-->
+            <!--END CONTENT-->
+
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,35 @@
+<div class="navigation">
+    <div class="container-fluid">
+        <div class="row">
+
+            {% if current_user.id == 1: %}
+            {% set width = "col-md-3" %}
+            {% else: %}
+            {% set width = "col-md-4" %}
+            {% endif %}
+
+            <div class="{{width}}">
+                <a class="navitem" href="{{ url_for('start_order') }}">
+                    <i class="fas fa-home"></i>
+                </a>
+            </div>
+            <div class="{{width}}">
+                <a class="navitem" href="{{ url_for('show_orders') }}">
+                    <i class="fas fa-clipboard-list"></i>
+                </a>
+            </div>
+            {% if current_user.id == 1: %}
+            <div class="col-md-3">
+                <a class="navitem" href="{{ url_for('settings') }}">
+                    <i class="fas fa-cog"></i>
+                </a>
+            </div>
+            {% endif %}
+            <div class="{{width}}">
+                <a class="navitem" href="{{ url_for('logout') }}">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
