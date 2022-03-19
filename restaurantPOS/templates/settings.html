@@ -5,7 +5,7 @@
     <div class="row main-row">
 
         <!--MENU-->
-        <div class="col-md-7 no-padding left-side">
+        <div class="col-md-7 left-side">
             {% include "menu.html" %}
         </div>
 
@@ -13,12 +13,11 @@
         <div class="col-md-5 right-side">
             {% include "navbar.html" %}
 
-
             <!--CONTENT-->
             {% if 'setup' in url_for(request.endpoint): %}
             <h1 class="right-heading">
                 Welcome!
-                <span class="settings-subheading">
+                <span class="right-subheading">
                     Let's get you setup
                 </span>
             </h1>
@@ -28,81 +27,61 @@
             </h1>
             {% endif %}
 
-
-            <table class="setup">
-                <tr>
-                    <td>1</td>
-                    <td>
-                        <a href="{{ url_for('add_role') }}">
-                            {% if 'setup' in url_for(request.endpoint): %}
-                            Add
-                            {% else: %}
-                            Edit
-                            {% endif %}Roles
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>
-                        <a href="{{ url_for('add_user') }}">
-                            {% if 'setup' in url_for(request.endpoint): %}
-                            Add
-                            {% else: %}
-                            Edit
-                            {% endif %}Users
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>
-                        <a href="{{ url_for('add_table') }}">
-                            {% if 'setup' in url_for(request.endpoint): %}
-                            Add
-                            {% else: %}
-                            Edit
-                            {% endif %} Table Names
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>
-                        <a href="{{ url_for('add_category') }}">
-                            {% if 'setup' in url_for(request.endpoint): %}
-                            Add
-                            {% else: %}
-                            Edit
-                            {% endif %} Menu Categories
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>
-                        <a href="{{ url_for('add_item') }}">
-                            {% if 'setup' in url_for(request.endpoint): %}
-                            Add
-                            {% else: %}
-                            Edit
-                            {% endif %} Menu Items
-                        </a>
-                    </td>
-                </tr>
-            </table>
+            <ol class="settings">
+                <li>
+                    <a href="{{ url_for('add_role') }}">
+                        {% if 'setup' in url_for(request.endpoint): %}
+                        Add
+                        {% else: %}
+                        Edit
+                        {% endif %}Roles
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('add_user') }}">
+                        {% if 'setup' in url_for(request.endpoint): %}
+                        Add
+                        {% else: %}
+                        Edit
+                        {% endif %}Users
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('add_table') }}">
+                        {% if 'setup' in url_for(request.endpoint): %}
+                        Add
+                        {% else: %}
+                        Edit
+                        {% endif %} Table Names
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('add_category') }}">
+                        {% if 'setup' in url_for(request.endpoint): %}
+                        Add
+                        {% else: %}
+                        Edit
+                        {% endif %} Menu Categories
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('add_item') }}">
+                        {% if 'setup' in url_for(request.endpoint): %}
+                        Add
+                        {% else: %}
+                        Edit
+                        {% endif %} Menu Items
+                    </a>
+                </li>
+            </ol>
 
             {% if 'setup' in url_for(request.endpoint): %}
-            <a class="next-page" href="{{ url_for('add_role') }}">
-                <button class="btn next-btn" type="button">
-                    Add Roles
-                    <i class="fas fa-angle-double-right"></i>
-                </button>
+            <a class="btn next-btn" href="{{ url_for('add_role') }}" type="button">
+                Add Roles
+                <i class="fas fa-angle-double-right"></i>
             </a>
             {% endif %}
-
             <!--END CONTENT-->
-
 
         </div>
     </div>

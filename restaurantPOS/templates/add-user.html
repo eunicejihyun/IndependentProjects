@@ -1,11 +1,12 @@
 {% block content %}
 {% include "header.html" %}
+{% set field_size = 33 %}
 
 <div class="container">
     <div class="row main-row">
 
         <!--MENU-->
-        <div class="col-md-7 no-padding left-side">
+        <div class="col-md-7 left-side">
             {% include "menu.html" %}
         </div>
 
@@ -16,7 +17,7 @@
             <!--CONTENT-->
             <h1 class="right-heading">
                 SETTINGS
-                <span class="settings-subheading">Add User</span>
+                <span class="right-subheading">Add/Edit User</span>
             </h1>
 
             <div class="user-form">
@@ -33,46 +34,31 @@
                             <tr>
                                 <td class="form-label">First Name</td>
                                 <td class="form-field">
-                                    {{ form.first_name(size=35) }}
-                                    {% for err in form.first_name.errors %}
-                                    <p class="form-error-msg">{{ err }}</p>
-                                    {% endfor %}
+                                    {{ form.first_name(size=field_size, placeholder='Lin-Manuel') }}
                                 </td>
                             </tr>
                             <tr>
                                 <td class="form-label">Last Name</td>
                                 <td class="form-field">
-                                    {{ form.last_name(size=35) }}
-                                    {% for err in form.last_name.errors %}
-                                    <p class="form-error-msg">{{ err }}</p>
-                                    {% endfor %}
+                                    {{ form.last_name(size=field_size, placeholder='Miranda') }}
                                 </td>
                             </tr>
                             <tr>
                                 <td class="form-label">Email</td>
                                 <td class="form-field">
-                                    {{ form.email(size=35) }}
-                                    {% for err in form.email.errors %}
-                                    <p class="form-error-msg">{{ err }}</p>
-                                    {% endfor %}
+                                    {{ form.email(size=field_size, placeholder='lmm@mail.com') }}
                                 </td>
                             </tr>
                             <tr>
                                 <td class="form-label">Password</td>
                                 <td class="form-field">
-                                    {{ form.password(size=35) }}
-                                    {% for err in form.password.errors %}
-                                    <p class="form-error-msg">{{ err }}</p>
-                                    {% endfor %}
+                                    {{ form.password(size=field_size) }}
                                 </td>
                             </tr>
                             <tr>
                                 <td class="form-label">Role</td>
                                 <td class="form-field">
                                     {{ form.role() }}
-                                    {% for err in form.role.errors %}
-                                    <p class="form-error-msg">{{ err }}</p>
-                                    {% endfor %}
                                 </td>
                             </tr>
                             <tr>
@@ -84,16 +70,37 @@
                             </tr>
 
                             <tr>
-                                <td colspan="2">
+                                <td></td>
+                                <td>
+
+                                    {% for err in form.first_name.errors %}
+                                    <p class="form-error-msg">First Name - {{ err }}</p>
+                                    {% endfor %}
+                                    {% for err in form.last_name.errors %}
+                                    <p class="form-error-msg">Last Name - {{ err }}</p>
+                                    {% endfor %}
+                                    {% for err in form.email.errors %}
+                                    <p class="form-error-msg">Email - {{ err }}</p>
+                                    {% endfor %}
+                                    {% for err in form.password.errors %}
+                                    <p class="form-error-msg">Password - {{ err }}</p>
+                                    {% endfor %}
+                                    {% for err in form.role.errors %}
+                                    <p class="form-error-msg">Role - {{ err }}</p>
+                                    {% endfor %}
+
                                     <!--FLASH MESSAGES-->
-                                    <div class="flash-msg">
-                                        {% with messages = get_flashed_messages() %}
-                                        {% if messages %}
-                                        <span class="flashes"> {% for message in messages %}<p>{{ message }}</p>{% endfor %} </span>
-                                        {% endif %}
-                                        {% endwith %}
-                                    </div>
+                                    {% with messages = get_flashed_messages() %}
+                                    {% if messages %}
+                                    <span class="flashes">
+                                        {% for message in messages %}
+                                        <p class="flash-msg">{{ message }}</p>
+                                        {% endfor %}
+                                    </span>
+                                    {% endif %}
+                                    {% endwith %}
                                     <!-- END FLASH MESSAGES-->
+
                                 </td>
                             </tr>
                         </table>
@@ -101,7 +108,7 @@
                     </form>
             </div>
 
-            <div class="current-data">
+            <div class="current-data user-list">
                 <h3>
                     Current Users
                 </h3>

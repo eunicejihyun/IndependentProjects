@@ -1,7 +1,6 @@
 from wtforms import IntegerField, TextAreaField, StringField, SubmitField, PasswordField, EmailField, SelectField
 from wtforms.validators import DataRequired, Email, InputRequired, NumberRange
 from flask_wtf import FlaskForm
-from flask_ckeditor import CKEditor, CKEditorField
 
 
 class LoginForm(FlaskForm):
@@ -15,7 +14,7 @@ class AddItemForm(FlaskForm):
     price = StringField('Price', validators=[DataRequired()])
     category = SelectField('Category', coerce=str, validators=[InputRequired()])
     section = SelectField('Section', coerce=str)
-    description = StringField('Description')
+    description = StringField('Description', validators=[DataRequired()])
     type1 = StringField('Mod Name')
     variation1 = StringField('Mod Options')
     type2 = StringField('Mod Name')
@@ -36,7 +35,7 @@ class AddUserForm(FlaskForm):
 
 class AddCategoryForm(FlaskForm):
     category = StringField('Category', validators=[DataRequired()])
-    section1 = StringField('Section')
+    section1 = StringField('Section', validators=[DataRequired()])
     section2 = StringField('Section')
     section3 = StringField('Section')
     submit = SubmitField('Submit')

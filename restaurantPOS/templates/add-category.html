@@ -16,7 +16,7 @@
             <!--CONTENT-->
             <h1 class="right-heading">
                 SETTINGS
-                <span class="settings-subheading">Add Menu Category</span>
+                <span class="right-subheading">Add/Edit Menu Category</span>
             </h1>
 
             <div class="category-form">
@@ -35,36 +35,24 @@
                                 <td class="form-label">Category</td>
                                 <td class="form-field">
                                     {{ form.category(size=35, placeholder='i.e. Drinks') }}
-                                    {% for err in form.category.errors %}
-                                    <p class="form-error-msg">{{ err }}</p>
-                                    {% endfor %}
                                 </td>
                             </tr>
                             <tr>
                                 <td class="form-label">Section</td>
                                 <td class="form-field">
                                     {{ form.section1(size=35, placeholder='i.e. Wine') }}
-                                    {% for err in form.section1.errors %}
-                                    <p class="form-error-msg">{{ err }}</p>
-                                    {% endfor %}
                                 </td>
                             </tr>
                             <tr>
                                 <td class="form-label">Section</td>
                                 <td class="form-field">
                                     {{ form.section2(size=35, placeholder='i.e. Beer') }}
-                                    {% for err in form.section2.errors %}
-                                    <p class="form-error-msg">{{ err }}</p>
-                                    {% endfor %}
                                 </td>
                             </tr>
                             <tr>
                                 <td class="form-label">Section</td>
                                 <td class="form-field">
                                     {{ form.section3(size=35, placeholder='i.e. Liquor') }}
-                                    {% for err in form.section3.errors %}
-                                    <p class="form-error-msg">{{ err }}</p>
-                                    {% endfor %}
                                 </td>
                             </tr>
                             <tr>
@@ -76,15 +64,25 @@
                             </tr>
 
                             <tr>
-                                <td colspan="2">
+                                <td></td>
+                                <td>
+
+                                    {% for err in form.category.errors %}
+                                    <p class="form-error-msg">Category - {{ err }}</p>
+                                    {% endfor %}
+                                    {% for err in form.section1.errors %}
+                                    <p class="form-error-msg">Section 1 - {{ err }}</p>
+                                    {% endfor %}
                                     <!--FLASH MESSAGES-->
-                                    <div class="flash-msg">
-                                        {% with messages = get_flashed_messages() %}
-                                        {% if messages %}
-                                        <span class="flashes"> {% for message in messages %}<p>{{ message }}</p>{% endfor %} </span>
-                                        {% endif %}
-                                        {% endwith %}
-                                    </div>
+                                    {% with messages = get_flashed_messages() %}
+                                    {% if messages %}
+                                    <span class="flashes">
+                                        {% for message in messages %}
+                                        <p class="flash-msg">{{ message }}</p>
+                                        {% endfor %}
+                                    </span>
+                                    {% endif %}
+                                    {% endwith %}
                                     <!-- END FLASH MESSAGES-->
                                 </td>
                             </tr>
@@ -100,7 +98,6 @@
                 </button>
             </a>
             <!--END CONTENT-->
-
 
         </div>
     </div>

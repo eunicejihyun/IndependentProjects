@@ -14,14 +14,13 @@ app.config['SECRET_KEY'] = '\xfa7\xe0\xdeA\x98\xfc9\xd1\x03\xdfR\xf9\x9f\xd3[\x0
 Bootstrap(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///complete_shop.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///shop.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///complete_shop.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 with app.app_context():
     db.init_app(app)
     db.create_all()
 
-
-# FLASK ROUTING #######################################################################################################
 
 # Trying to reduce repeated code = this creates the necessary data to be passed on for the menu.
 def menu_create():
@@ -42,6 +41,7 @@ def admin_only(function):
     return decorated_function
 
 
+# FLASK ROUTING #######################################################################################################
 @app.route('/')
 def home():
     user_count = db.session.query(User).count()
@@ -56,12 +56,10 @@ def home():
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     menu, categories, sections = menu_create()
-
     form = LoginForm()
 
     if current_user.is_authenticated:
         return redirect(url_for('start_order'))
-
     if request.method == 'POST':
         employee_id = request.form.get('employee_id')
         password = request.form.get('password')
@@ -99,14 +97,11 @@ def start_order():
     table_options = [table.name for table in db.session.query(Table).filter(Table.status == 'available').all()]
     form = StartOrderForm()
     form.table.choices = table_options
-
     started_order = db.session.query(Order).filter(Order.user_id == current_user.id,
-                                                   Order.status == "started").order_by(
-        Order.id.desc()).first()
+                                                   Order.status == "started").order_by(Order.id.desc()).first()
 
     if started_order:
         return redirect(url_for('complete_order'))
-
     if form.validate_on_submit():
         table = db.session.query(Table).filter(Table.name == form.table.data).first()
         new_order = Order(
@@ -121,7 +116,6 @@ def start_order():
         db.session.add(new_order)
         db.session.commit()
         return redirect(url_for('complete_order'))
-
     return render_template('start-order.html', form=form, menu=menu, categories=categories, sections=sections)
 
 
@@ -226,7 +220,7 @@ def submit_order(order_id):
         return redirect(url_for('complete_order'))
 
 
-@app.route('/delete/order_item/<int:oi_id>')
+@app.route('/delete/order-item/<int:oi_id>')
 @login_required
 def delete_order_item(oi_id):
     order_id = request.args.get('order_id')
@@ -307,12 +301,13 @@ def settings():
 def show_orders():
     menu, categories, sections = menu_create()
     orders = db.session.query(Order).filter(Order.status.not_in(['closed', 'cancelled'])).all()
-    closed_orders = db.session.query(Order).filter(Order.status=="closed").all()
+    closed_orders = db.session.query(Order).filter(Order.status == "closed").all()
     lifetime_total = 0
     for x in closed_orders:
         for y in x.order_items:
             lifetime_total += y.subtotal
-    return render_template('show-orders.html', menu=menu, categories=categories, sections=sections, orders=orders, total=lifetime_total)
+    return render_template('show-orders.html', menu=menu, categories=categories, sections=sections, orders=orders,
+                           total=lifetime_total)
 
 
 @app.route('/add-role', methods=['GET', 'POST'])
@@ -393,7 +388,7 @@ def remove_user():
     return redirect(url_for('add_user'))
 
 
-@app.route('/edit/user', methods=['GET', 'POST'])
+@app.route('/edit-user', methods=['GET', 'POST'])
 @admin_only
 def edit_user():
     menu, categories, sections = menu_create()
@@ -469,7 +464,7 @@ def add_table():
                            tables=tables)
 
 
-@app.route('/remove/table')
+@app.route('/remove-table')
 @admin_only
 def remove_table():
     table_id = request.args.get("table_id")
@@ -702,7 +697,8 @@ def edit_menu_item():
                 new_mod = ItemMod(
                     name=add_types[x],
                     variations=add_vars[x],
-                    status="active"
+                    status="active",
+                    item_id=item_id
                 )
                 print(add_types[x])
                 db.session.add(new_mod)

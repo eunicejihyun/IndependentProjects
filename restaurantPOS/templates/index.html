@@ -1,11 +1,12 @@
 {% block content %}
 {% include "header.html" %}
+{% set field_size = 33 %}
 
 <div class="container">
     <div class="row main-row">
 
         <!--MENU-->
-        <div class="col-md-7 no-padding left-side">
+        <div class="col-md-7 left-side">
             {% include "menu.html" %}
         </div>
 
@@ -14,34 +15,39 @@
 
             <!--CONTENT-->
             <div class="login-form">
-                <h1 class="right-heading"> LOGIN </h1>
+                <h1 class="order-heading"> LOGIN </h1>
 
                 <form action="{{ url_for('login') }}" method="POST" novalidate>
                     {{ form.csrf_token }}
                     <p>
-                        {{ form.employee_id(size=30, placeholder='Employee ID') }}
-                        {% for err in form.employee_id.errors %}
-                        <span style="color:red">{{ err }}</span>
-                        {% endfor %}
+                        {{ form.employee_id(size=field_size, placeholder='Employee ID') }}
                     </p>
                     <p>
-                        {{ form.password(size=30, placeholder='Password') }}
-                        {% for err in form.password.errors %}
-                        <span style="color:red">{{ err }}</span>
-                        {% endfor %}
+                        {{ form.password(size=field_size, placeholder='Password') }}
                     </p>
                     {{ form.submit }}
                 </form>
-            </div>
+                <br>
 
-            <!--FLASH MESSAGES-->
-            <div class="flash-msg">
+                {% for err in form.employee_id.errors %}
+                <span style="color:red">{{ err }}</span>
+                {% endfor %}
+                {% for err in form.password.errors %}
+                <span style="color:red">{{ err }}</span>
+                {% endfor %}
+                <!--FLASH MESSAGES-->
                 {% with messages = get_flashed_messages() %}
                 {% if messages %}
-                <span class="flashes"> {% for message in messages %}<p>{{ message }}</p>{% endfor %} </span>
+                <span class="flashes">
+                    {% for message in messages %}
+                    <p class="flash-msg">{{ message }}</p>
+                    {% endfor %}
+                </span>
                 {% endif %}
                 {% endwith %}
             </div>
+
+
             <!-- END FLASH MESSAGES-->
             <!--END CONTENT-->
 

@@ -1,25 +1,24 @@
+{% set id = request.args.get("item_id") %}
+{% set order_id = request.args.get("order_id") %}
+
 <div class="oi-popup">
 
     <h5 class="popup-title">
         {{item.name}}
 
         <span class="popup-price"> $ {{ item.price }} </span>
-        <a class="btn-close" href="{{ url_for('complete_order') }}" type="button"></a>
+        <a class="btn-close" href="{{ url_for('complete_order', order_id=order_id) }}" type="button"></a>
     </h5>
 
 
-    {% set id = request.args.get("item_id") %}
-    {% set order_id = request.args.get("order_id") %}
     <form action="{{ url_for('complete_order', item_id=id, order_id=order_id) }}" method="POST" novalidate>
         {{ form.csrf_token }}
 
-        <div class="popup-body">
             <div class="popup-description">
                 {{ item.description }}
             </div>
 
-
-            <div class="container-fluid popup-container">
+            <div class="container-fluid">
 
                 {% for mod in item.mods: %}
                 <div class="row">
@@ -79,7 +78,7 @@
 
 
                 <div class="row">
-                    <div class="col-md-6 form-field no-padding">
+                    <div class="col-md-6 form-field">
                         {{ form.notes(placeholder='Notes for the Chef') }}
                         {% for err in form.notes.errors %}
                         <p class="form-error-msg">{{ err }}</p>
@@ -88,7 +87,7 @@
 
                     <div class="col-md-6">
 
-                        <div class="container-fluid no-padding">
+                        <div class="container-fluid">
                             <div class="row">
                                 <div class="col-md-6 form-label popup-padding">
                                     Quantity
@@ -106,22 +105,8 @@
                 </div>
             </div>
 
-            <center>
-                <!--FLASH MESSAGES-->
-                {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                <span class=flashes>
-                                    {% for message in messages %}
-                                    <p style="color:red; font-size: 14px;">{{ message }}</p>
-                                    {% endfor %}
-                                    </span>
-                {% endif %}
-                {% endwith %}
-            </center>
-
-        </div>
-
         <!--ADD ORDER ITEM BUTTON-->
         {{ form.add }}
+
     </form>
 </div>

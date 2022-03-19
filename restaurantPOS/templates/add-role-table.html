@@ -5,7 +5,7 @@
     <div class="row main-row">
 
         <!--MENU-->
-        <div class="col-md-7 no-padding left-side">
+        <div class="col-md-7 left-side">
             {% include "menu.html" %}
         </div>
 
@@ -16,12 +16,12 @@
             <!--CONTENT-->
             <h1 class="right-heading">
                 SETTINGS
-                <span class="settings-subheading">
+                <span class="right-subheading">
                     {% if url_for(request.endpoint)== '/add-role': %}
-                                    Add Role
-                                    {% else: %}
-                                    Add Table
-                                    {% endif %}
+                    Add/Edit Role
+                    {% else: %}
+                    Add/Edit Table
+                    {% endif %}
                 </span>
             </h1>
 
@@ -45,10 +45,6 @@
                                     Table') }}
                                     {% endif %}
 
-                                    {% for err in form.field.errors %}
-                                    <p class="form-error-msg">{{ err }}</p>
-                                    {% endfor %}
-
                                 </td>
                             </tr>
                             <tr>
@@ -58,20 +54,27 @@
                                     {{ form.submit }}
                                 </td>
                             </tr>
-
                             <tr>
-                                <td colspan="2">
+                                <td></td>
+                                <td>
+                                    {% for err in form.field.errors %}
+                                    <p class="form-error-msg">{{ err }}</p>
+                                    {% endfor %}
                                     <!--FLASH MESSAGES-->
-                                    <div class="flash-msg">
-                                        {% with messages = get_flashed_messages() %}
-                                        {% if messages %}
-                                        <span class="flashes"> {% for message in messages %}<p>{{ message }}</p>{% endfor %} </span>
-                                        {% endif %}
-                                        {% endwith %}
-                                    </div>
+                                    {% with messages = get_flashed_messages() %}
+                                    {% if messages %}
+                                    <span class="flashes">
+                                        {% for message in messages %}
+                                        <p class="flash-msg">{{ message }}</p>
+                                        {% endfor %}
+                                    </span>
+                                    {% endif %}
+                                    {% endwith %}
                                     <!-- END FLASH MESSAGES-->
                                 </td>
                             </tr>
+
+
                         </table>
 
                     </form>
@@ -96,12 +99,11 @@
                 </ol>
             </div>
 
-            <a class="next-page" href="{{ url_for('add_user') }}">
-                <button class="btn next-btn" type="button">
-                    Add Users
-                    <i class="fas fa-angle-double-right"></i>
-                </button>
+            <a class="btn next-btn" href="{{ url_for('add_user') }}" type="button">
+                Add Users
+                <i class="fas fa-angle-double-right"></i>
             </a>
+
 
             {% else: %}
 
@@ -125,11 +127,9 @@
                 </ol>
             </div>
 
-            <a class="next-page" href="{{ url_for('add_category') }}">
-                <button class="btn next-btn" type="button">
-                    Setup Menu Categories
-                    <i class="fas fa-angle-double-right"></i>
-                </button>
+            <a class="btn next-btn" href="{{ url_for('add_category') }}" type="button">
+                Setup Menu Categories
+                <i class="fas fa-angle-double-right"></i>
             </a>
 
             {% endif %}

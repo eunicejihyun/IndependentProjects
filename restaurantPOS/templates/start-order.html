@@ -5,7 +5,7 @@
     <div class="row main-row">
 
         <!--MENU-->
-        <div class="col-md-7 no-padding left-side">
+        <div class="col-md-7 left-side">
             {% include "menu.html" %}
         </div>
 
@@ -15,62 +15,75 @@
             {% include "navbar.html" %}
 
             <!--CONTENT-->
+
+
             <div class="start-order-form">
 
-                <h1 class="right-heading center">
-                    ORDER
-                </h1>
 
                 <form action="{{ url_for('start_order') }}" method="POST" novalidate>
                     {{ form.csrf_token }}
 
                     <table>
                         <tr>
+                            <td></td>
+                            <td class="form-field">
+                                <h1 class="order-heading">
+                                    ORDER
+                                </h1>
+                            </td>
+                        </tr>
+
+                        <tr>
                             <td class="form-label">Table</td>
                             <td class="form-field">
                                 {{ form.table() }}
-                                {% for err in form.table.errors %}
-                                <p class="form-error-msg">{{ err }}</p>
-                                {% endfor %}
                             </td>
                         </tr>
+
                         <tr>
                             <td class="form-label">Name</td>
                             <td class="form-field">
-                                {{ form.name(size=30, placeholder='Customer Name') }}
-                                {% for err in form.name.errors %}
-                                <p class="form-error-msg">{{ err }}</p>
-                                {% endfor %}
+                                {{ form.name(size=33, placeholder='Customer Name') }}
                             </td>
                         </tr>
+
                         <tr>
                             <td class="form-label">Server</td>
                             <td class="start-order-user">
-
                                 {{ current_user.first_name.upper() }}
                                 <a class="order-logout" href="{{ url_for('logout') }}">logout
                                     <i class="fas fa-angle-double-right"></i>
                                 </a>
-
                             </td>
                         </tr>
+
                         <tr>
-                            <td class="center" colspan="2">
+                            <td></td>
+                            <td>
                                 <!--SUBMIT BUTTON-->
                                 {{ form.submit }}
                             </td>
                         </tr>
 
                         <tr>
-                            <td colspan="2">
+                            <td></td>
+                            <td>
+                                {% for err in form.table.errors %}
+                                <p class="form-error-msg">{{ err }}</p>
+                                {% endfor %}
+                                {% for err in form.name.errors %}
+                                <p class="form-error-msg">{{ err }}</p>
+                                {% endfor %}
                                 <!--FLASH MESSAGES-->
-                                <div class="flash-msg">
-                                    {% with messages = get_flashed_messages() %}
-                                    {% if messages %}
-                                    <span class="flashes"> {% for message in messages %}<p>{{ message }}</p>{% endfor %} </span>
-                                    {% endif %}
-                                    {% endwith %}
-                                </div>
+                                {% with messages = get_flashed_messages() %}
+                                {% if messages %}
+                                <span class="flashes">
+                                        {% for message in messages %}
+                                        <p class="flash-msg">{{ message }}</p>
+                                        {% endfor %}
+                                    </span>
+                                {% endif %}
+                                {% endwith %}
                                 <!-- END FLASH MESSAGES-->
                             </td>
                         </tr>
