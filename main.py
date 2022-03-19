@@ -7,14 +7,15 @@ from forms import LoginForm, AddItemForm, AddUserForm, AddCategoryForm, AddBasic
 from tables import db, User, MenuItem, ItemMod, Category, Section, Role, Order, Table, OrderItem, OrderItemMod
 from datetime import datetime
 from functools import wraps
+import os
 
 # FLASK SETUP #########################################################################################################
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '\xfa7\xe0\xdeA\x98\xfc9\xd1\x03\xdfR\xf9\x9f\xd3[\x0eW\xe2\xfc\xec>i\xde'
+app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
 Bootstrap(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///shop.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///complete_shop.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 with app.app_context():
