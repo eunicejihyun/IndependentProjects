@@ -270,6 +270,7 @@ def close_order(order_id):
 # INITIAL DATABASE SETUP ##############################################################################################
 
 @app.route('/setup', methods=['GET', 'POST'])
+@admin_only
 def setup():
     menu, categories, sections = menu_create()
     # SEE IF THIS IS A FIRST TIME SETUP.
@@ -298,6 +299,7 @@ def setup():
 
 
 @app.route('/settings')
+@admin_only
 def settings():
     menu, categories, sections = menu_create()
     return render_template('settings.html', menu=menu, categories=categories, sections=sections)
