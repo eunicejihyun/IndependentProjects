@@ -42,9 +42,6 @@ def make_unique(submitted_list: list):
     return unique_list
 
 
-# ---------------------------------------------------------------------------------------------------------------------
-#  NON-ROUTING FUNCTIONS
-# ---------------------------------------------------------------------------------------------------------------------
 def menu_create():
     """
     Generates necessary data to be passed on to create the menu (left side of app)
