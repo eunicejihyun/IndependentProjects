@@ -1,35 +1,50 @@
 <div class="navigation">
-    <div class="container-fluid">
-        <div class="row">
+  <div class="container-fluid">
+    <div class="row">
 
-            {% if current_user.id == 1: %}
-            {% set width = "col-md-3" %}
-            {% else: %}
-            {% set width = "col-md-4" %}
-            {% endif %}
+      {% if current_user.id == 1: %}
+      {% set width = "col-md-3" %}
+      {% else: %}
+      {% set width = "col-md-4" %}
+      {% endif %}
 
-            <div class="{{width}}">
-                <a class="navitem" href="{{ url_for('start_order') }}">
-                    <i class="fas fa-home"></i>
-                </a>
-            </div>
-            <div class="{{width}}">
-                <a class="navitem" href="{{ url_for('show_orders') }}">
-                    <i class="fas fa-clipboard-list"></i>
-                </a>
-            </div>
-            {% if current_user.id == 1: %}
-            <div class="col-md-3">
-                <a class="navitem" href="{{ url_for('settings') }}">
-                    <i class="fas fa-cog"></i>
-                </a>
-            </div>
-            {% endif %}
-            <div class="{{width}}">
-                <a class="navitem" href="{{ url_for('logout') }}">
-                    <i class="fas fa-sign-out-alt"></i>
-                </a>
-            </div>
-        </div>
+      <div class="{{width}}">
+        <a class="navitem" href="{{ url_for('start_order') }}">
+          <i class="fas fa-home"></i>
+          <span class="navlabel">home</span>
+        </a>
+      </div>
+      <div class="{{width}}">
+        <a class="navitem" href="{{ url_for('show_orders') }}">
+          <i class="fas fa-clipboard-list"></i>
+          <span class="navlabel">orders</span>
+        </a>
+      </div>
+      {% if current_user.id == 1: %}
+      <div class="col-md-3 nav-item dropdown">
+        <a class="navitem dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fas fa-cog"></i>
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <li><a class="dropdown-item" href="{{ url_for('add_role') }}">Update Roles</a></li>
+          <li><a class="dropdown-item" href="{{ url_for('add_user') }}">Update Users</a></li>
+          <li><a class="dropdown-item" href="{{ url_for('add_table') }}">Update Tables</a></li>
+          <li><a class="dropdown-item" href="{{ url_for('add_category') }}">Update Menu Categories</a></li>
+          <li><a class="dropdown-item" href="{{ url_for('add_menu_item') }}">Update Menu Items</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="{{ url_for('import_data') }}">Import Prepared Menu</a></li>
+          <li><a class="dropdown-item" href="{{ url_for('delete_data') }}">Reset App</a></li>
+        </ul>
+        <span class="navlabel">settings</span>
+      </div>
+      {% endif %}
+      <div class="{{width}}">
+        <a class="navitem" href="{{ url_for('logout') }}">
+          <i class="fas fa-sign-out-alt"></i>
+          <span class="navlabel">logout</span>
+        </a>
+
+      </div>
     </div>
+  </div>
 </div>

@@ -35,7 +35,7 @@
   left: 1rem;
   width: 90%;
   position: relative;
-  height: 55vh;
+  height: 60vh;
 }
 
 .oi-container {
@@ -72,13 +72,13 @@
 
 .oi-bottom-container {
   border-top: 1px solid black;
-  padding: 0.8rem 3rem;
+  padding: 0rem 3rem;
   width: 90%;
   position: relative;
 }
 
 .oi-bottom-row {
-  padding: 5px 0 0;
+  padding: 1rem 0 0;
 }
 
 .order-flash {
@@ -86,35 +86,26 @@
 }
 
 /* ADD ORDER ITEM FORM */
-.oi-popup {
-  background-color: #F3F5FF;
-  padding: 20px 20px 3rem;
-  position: fixed;
-  top: 15%;
-  left: 10%;
-  width: 38%;
-}
-
-.popup-title {
+.modal-title {
   font-weight: bold;
-  font-size: 1.7rem;
+  font-size: 1.5rem;
 }
 
-.popup-price {
-  font-size: 1.2rem;
-  color: red;
-  text-align: right;
-  font-weight: normal;
-  padding-left: 1rem;
-}
-
-.popup-description {
-  font-size: 0.8rem;
-  padding: 0.4rem 0 1rem;
-}
-
-.popup-padding {
+.modal-padding {
   padding: 8px;
+}
+
+.modal-header {
+  padding: 0.7rem 2rem 0.3rem;
+}
+
+.modal-description {
+  padding: 0.5rem 1rem 1rem;
+  font-size: 0.9rem;
+}
+
+.modal-add {
+  height: 2rem;
 }
 
 #quantity {
@@ -125,7 +116,7 @@
   margin-top: 0.5rem;
   padding: 0.5rem;
   width: 100%;
-  height: 120%;
+  height: 90%;
 }
 
 #mod1, #mod2, #mod3 {

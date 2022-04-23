@@ -1,0 +1,11 @@
+﻿name,Sweet Rice Makgeolli,Yogurt Makgeolli,Nurungji Makgeolli,Boba Slushie,Sikhye,Bossam,Pa Jeon,Gool Jeon,Tteok-bokki,Bulgogi Rice,Batata Fries,Matcha Cake,Banana pudding
+price,35,37,37,5,5,20,10,12,12,15,5,5,5
+category,DRINKS,DRINKS,DRINKS,DRINKS,DRINKS,APPETIZERS,APPETIZERS,APPETIZERS,APPETIZERS,APPETIZERS,APPETIZERS,DESSERTS,DESSERTS
+section,Rice Wine,Rice Wine,Rice Wine,Other Beverages,Other Beverages,K-Bbq,Jeon,Jeon,Other,K-Bbq,Other,Asian,Other
+description,Our best-selling original makgeolli. Made with 100% sweet rice for a slightly sweet and clean finish. 30 proof.,Sweet rice makgeolli + Asian-style yogurt = a crowd-pleasing boozy sweet drink. 30 proof.,Our best-selling sweet rice makgeolli blended with savory and nutty scorched rice. 30 proof.,Flavored tea blended with ice and topped with your choice of toppings.,Traditional sweet Korean rice beverage made with rice and pine nuts.,"Boiled pork belly in the traditional Korean style. Comes with sauce, kimchi, and lettuce.",Our signature green onion fried Korean-style pancake.,Crowd-favorite Korean-style pancake made with oysters and kimchi.,"Traditional Korean street food - spicy rice cakes with onions, boiled egg, and fishcake.",Steamed white rice topped with our award-winning bulgogi!,Sliced batata fried in our signature batter - golden and crispy!,Delicious matcha cake made with real green tea and fresh cream.,delicious homemade banana pudding made with ripe bananas.
+mod1,Sweetness,Sweetness,Sweetness,Sweetness,,,,,Spiciness,Sides,,,
+vars1,"Unsweet,Lightly Sweet,Sweet,Very Sweet","Unsweet,Lightly Sweet,Sweet,Very Sweet","Unsweet,Lightly Sweet,Sweet,Very Sweet","Lightly Sweet,Sweet,Very Sweet,Ultra Sweet",,,,,"Less Spicy,Spicy,Very Spicy","Fries,Salad",,,
+mod2,,,Sweetener,Toppings,,,,,,,,,
+vars2,,,"Honey,Stevia,Sugar","Pudding,Tapioca Pearls,Jelly",,,,,,,,,
+mod3,,,,Variety,,,,,,,,,
+vars3,,,,"Taro,Matcha",,,,,,,,,

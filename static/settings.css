@@ -2,13 +2,12 @@
   font-family: 'Lora', serif;
   font-size: 1.8rem;
   font-weight: bold;
-  padding: 1rem 0 0;
+  padding: 1.7rem 0 0.5rem;
   position: relative;
-  left: 3rem;
+  left: 2.5rem;
   width: 75%
 }
 
-/* previously named settings-subheading */
 .right-subheading {
   font-family: 'Roboto', sans-serif;
   font-size: 1.1rem;
@@ -63,7 +62,7 @@
 .current-data {
   margin: 10% 10%;
   position: relative;
-  height: 15rem;
+  height: 16rem;
   background-color: #F3F5FF;
 }
 
@@ -77,7 +76,7 @@
 }
 
 .user-list {
-  height: 7rem;
+  height: 9rem;
   margin-top: 0.5rem;
 }
 

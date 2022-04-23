@@ -4,15 +4,37 @@ from flask_login import UserMixin
 
 db = SQLAlchemy()
 
+# ---------------------------------------------------------------------------------------------------------------------
+#  CONFIGURE DATABASE TABLES
+# ---------------------------------------------------------------------------------------------------------------------
+item__mod = db.Table(
+    'item__mod',
+    db.Column('item_id', db.Integer, db.ForeignKey('item.id'), primary_key=True),
+    db.Column('mod_id', db.Integer, db.ForeignKey('mod.id'), primary_key=True)
+)
 
-# CONFIGURE DATABASE TABLES ###########################################################################################
+mod__var = db.Table(
+    'mod__var',
+    db.Column('mod_id', db.Integer, db.ForeignKey('mod.id'), primary_key=True),
+    db.Column('var_id', db.Integer, db.ForeignKey('var.id'), primary_key=True)
+)
+
+order_item__var = db.Table(
+    'order_item__var',
+    db.Column('order_item_id', db.Integer, db.ForeignKey('order_item.id'), primary_key=True),
+    db.Column('var_id', db.Integer, db.ForeignKey('var.id'), primary_key=True)
+)
+
+
 class User(UserMixin, db.Model):
+    """
+    status options: active, inactive
+    """
     __tablename__ = "user"
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(25), nullable=False)
-    last_name = db.Column(db.String(25), nullable=False)
-    email = db.Column(db.String(100), unique=True, nullable=False)
-    password = db.Column(db.String(200), nullable=False)
+    full_name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(50), unique=True, nullable=False)
+    password = db.Column(db.String(250), nullable=False)
     status = db.Column(db.String(50), nullable=False)
     role_id = db.Column(db.Integer, db.ForeignKey("role.id"))
     role = relationship("Role", back_populates="users")
@@ -20,38 +42,48 @@ class User(UserMixin, db.Model):
 
 
 class MenuItem(db.Model):
+    """
+    status options: active, inactive
+    """
     __tablename__ = "item"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable=False, unique=True)
     price = db.Column(db.Integer, nullable=False)
     description = db.Column(db.String(120), nullable=True)
-    mods = relationship("ItemMod", back_populates="item")
+    status = db.Column(db.String(50), nullable=False)
+    mods = relationship("ItemMod", secondary=item__mod, back_populates="items")
     category_id = db.Column(db.Integer, db.ForeignKey("category.id"))
     category = relationship("Category", back_populates="items")
     section_id = db.Column(db.Integer, db.ForeignKey("section.id"))
     section = relationship("Section", back_populates="items")
     order_items = relationship("OrderItem", back_populates="item")
-    status = db.Column(db.String(50), nullable=False)
 
 
 class ItemMod(db.Model):
-    __tablename__ = "modification"
+    """
+    basically a label for a package of vars
+    """
+    __tablename__ = "mod"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable=False)
-    variations = db.Column(db.String(200), nullable=False)
-    item_id = db.Column(db.Integer, db.ForeignKey("item.id"))
-    item = relationship("MenuItem", back_populates="mods")
-    order_item_mods = relationship("OrderItemMod", back_populates="mod")
-    status = db.Column(db.String(50), nullable=False)
+    items = relationship("MenuItem", secondary=item__mod, back_populates="mods")
+    vars = relationship("ItemModVar", secondary=mod__var, back_populates="mods")
+
+
+class ItemModVar(db.Model):
+    __tablename__ = "var"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(30), nullable=False, unique=True)
+    mods = relationship("ItemMod", secondary=mod__var, back_populates="vars")
+    order_items = relationship("OrderItem", secondary=order_item__var, back_populates="vars")
 
 
 class Category(db.Model):
     __tablename__ = "category"
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(30), nullable=False)
+    name = db.Column(db.String(30), nullable=False, unique=True)
     items = relationship("MenuItem", back_populates="category")
     sections = relationship("Section", back_populates="category")
-    status = db.Column(db.String(50), nullable=False)
 
 
 class Section(db.Model):
@@ -61,17 +93,19 @@ class Section(db.Model):
     items = relationship("MenuItem", back_populates="section")
     category_id = db.Column(db.Integer, db.ForeignKey("category.id"))
     category = relationship("Category", back_populates="sections")
-    status = db.Column(db.String(50), nullable=False)
 
 
 class Role(db.Model):
     __tablename__ = "role"
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
+    name = db.Column(db.String(50), nullable=False, unique=True)
     users = relationship("User", back_populates="role")
 
 
 class Table(db.Model):
+    """
+    status options: available, unavailable, inactive
+    """
     __tablename__ = "table"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False, unique=True)
@@ -80,6 +114,9 @@ class Table(db.Model):
 
 
 class Order(db.Model):
+    """
+    status options: started, cancelled, submitted, closed
+    """
     __tablename__ = "order"
     id = db.Column(db.Integer, primary_key=True)
     customer_name = db.Column(db.String(50), nullable=False)
@@ -101,19 +138,8 @@ class OrderItem(db.Model):
     quantity = db.Column(db.Integer, nullable=False)
     notes = db.Column(db.String(200))
     subtotal = db.Column(db.Float, nullable=False)
-    order_item_mods = relationship("OrderItemMod", back_populates="order_item")
     item = relationship("MenuItem", back_populates="order_items")
     item_id = db.Column(db.Integer, db.ForeignKey("item.id"))
     order = relationship("Order", back_populates="order_items")
     order_id = db.Column(db.Integer, db.ForeignKey("order.id"))
-
-
-# Created because of Many-to-Many Relationship between OrderItem and Mods
-class OrderItemMod(db.Model):
-    __tablename__ = "order_item_mods"
-    id = db.Column(db.Integer, primary_key=True)
-    chosen_var = db.Column(db.String(200), nullable=False)
-    order_item = relationship("OrderItem", back_populates="order_item_mods")
-    order_item_id = db.Column(db.Integer, db.ForeignKey("order_item.id"))
-    mod = relationship("ItemMod", back_populates="order_item_mods")
-    mod_id = db.Column(db.Integer, db.ForeignKey("modification.id"))
+    vars = relationship("ItemModVar", secondary=order_item__var, back_populates="order_items")

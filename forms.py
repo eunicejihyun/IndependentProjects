@@ -1,4 +1,5 @@
-from wtforms import IntegerField, TextAreaField, StringField, SubmitField, PasswordField, EmailField, SelectField
+from wtforms import IntegerField, TextAreaField, StringField, SubmitField, PasswordField, EmailField, SelectField, \
+    FloatField
 from wtforms.validators import DataRequired, Email, InputRequired, NumberRange
 from flask_wtf import FlaskForm
 
@@ -11,22 +12,21 @@ class LoginForm(FlaskForm):
 
 class AddItemForm(FlaskForm):
     name = StringField('Item Name', validators=[DataRequired()])
-    price = StringField('Price', validators=[DataRequired()])
+    price = FloatField('Price', validators=[NumberRange(min=1, message="Enter a positive value.")])
     category = SelectField('Category', coerce=str, validators=[InputRequired()])
     section = SelectField('Section', coerce=str)
     description = StringField('Description', validators=[DataRequired()])
-    type1 = StringField('Mod Name')
-    variation1 = StringField('Mod Options')
-    type2 = StringField('Mod Name')
-    variation2 = StringField('Mod Options')
-    type3 = StringField('Mod Name')
-    variation3 = StringField('Mod Options')
+    mod1 = StringField('Mod Name')
+    vars1 = StringField('Mod Options')
+    mod2 = StringField('Mod Name')
+    vars2 = StringField('Mod Options')
+    mod3 = StringField('Mod Name')
+    vars3 = StringField('Mod Options')
     submit = SubmitField('Submit')
 
 
 class AddUserForm(FlaskForm):
-    first_name = StringField('First Name', validators=[DataRequired()])
-    last_name = StringField('Last Name', validators=[DataRequired()])
+    full_name = StringField('First Name', validators=[DataRequired()])
     email = EmailField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     role = SelectField('Category', coerce=str, default="Server", validators=[InputRequired()])
@@ -35,9 +35,7 @@ class AddUserForm(FlaskForm):
 
 class AddCategoryForm(FlaskForm):
     category = StringField('Category', validators=[DataRequired()])
-    section1 = StringField('Section', validators=[DataRequired()])
-    section2 = StringField('Section')
-    section3 = StringField('Section')
+    sections = StringField('Section', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 
@@ -53,6 +51,7 @@ class StartOrderForm(FlaskForm):
 
 
 class AddOrderItemForm(FlaskForm):
+    item_id = StringField('Item ID', validators=[DataRequired()])
     mod1 = SelectField('Mod1', coerce=str)
     mod2 = SelectField('Mod1', coerce=str)
     mod3 = SelectField('Mod1', coerce=str)

@@ -5,57 +5,52 @@
   <ul class="menu-tabs nav nav-tabs nav-fill" role="tablist">
 
     {% for category in categories: %}
-
     {% if loop.first %}
     <li class="nav-item" role="presentation">
       <button aria-controls="{{ category.name }}" aria-selected="true" class="nav-link active" data-bs-target="#{{ category.name }}" data-bs-toggle="tab" id="{{ category.name }}-tab" role="tab" type="button">
         {{ category.name }}
 
         <!--EDIT OPTIONS-->
-        {% if "category" in url_for(request.endpoint): %}
-        <a class="menu-buttons remove-button" href="{{url_for('remove_category', category_id=category.id)}}">
+        {% if "category" in request.url: %}
+        <a class="menu-buttons remove-button" href="{{url_for('remove_category', id=category.id)}}">
           <i class="fas fa-times-circle"></i>
         </a>
-        <a class="menu-buttons edit-button" href="{{url_for('edit_category', category_id=category.id)}}">
+        <a class="menu-buttons edit-button" href="{{url_for('edit_category', id=category.id)}}">
           <i class="fas fa-pencil-alt"></i>
         </a>
         {% endif %}
-        <!--END EDIT OPTIONS-->
 
       </button>
     </li>
-
     {% else: %}
     <li class="nav-item" role="presentation">
       <button aria-controls="{{ category.name }}" aria-selected="false" class="nav-link" data-bs-target="#{{ category.name }}" data-bs-toggle="tab" id="{{ category.name }}-tab" role="tab" type="button">
         {{ category.name }}
 
         <!--EDIT OPTIONS-->
-        {% if "category" in url_for(request.endpoint): %}
-        <a class="menu-buttons remove-button" href="{{url_for('remove_category', category_id=category.id)}}">
+        {% if "category" in request.url: %}
+        <a class="menu-buttons remove-button" href="{{url_for('remove_category', id=category.id)}}">
           <i class="fas fa-times-circle"></i>
         </a>
-        <a class="menu-buttons edit-button" href="{{url_for('edit_category', category_id=category.id)}}">
+        <a class="menu-buttons edit-button" href="{{url_for('edit_category', id=category.id)}}">
           <i class="fas fa-pencil-alt"></i>
         </a>
         {% endif %}
-        <!--END EDIT OPTIONS-->
 
       </button>
     </li>
-
     {% endif %}
     {% endfor %}
+
   </ul>
 
   <div class="menu-content tab-content" id="nav-tabContent">
 
     {% for category in categories: %}
-
-    <div aria-labelledby="{{ category.name }}-tab" class="tab-pane fade show {% if loop.first %}active{% endif %}" id="{{ category.name }}" role="tabpanel">
+    <div aria-labelledby="{{ category.name }}-tab" class="tab-pane fade show {% if loop.first %}active{% endif %}"
+         id="{{ category.name }}" role="tabpanel">
 
       {% for section in sections: %}
-
       {% if section.category.id == category.id: %}
       <!-- SECTION HEADER -->
       <h1 class="menu-section-header">
@@ -65,7 +60,7 @@
       {% endif %}
 
       {% for item in menu: %}
-      {% if item.category.name == category.name and item.section.name == section.name: %}
+      {% if item.section_id == section.id and item.category_id == category.id: %}
 
       <div class="item">
         <span class="item-name">
@@ -74,18 +69,16 @@
         <span class="menu-price">
           {{ item.price }}
 
-          {% if '/complete-order' in url_for(request.endpoint): %}
-
-          <a class="menu-buttons add-button" href="{{ url_for( 'complete_order', item_id=item.id, order_id=order_id) }}">
+          {% if 'complete-order' in request.url: %}
+          <button type="button" class="btn menu-buttons add-button" data-bs-toggle="modal" data-bs-target="#add-order-item" id="i{{ item.id }}">
             <i class="fas fa-plus-circle"></i>
-          </a>
+          </button>
 
-          {% elif url_for(request.endpoint) == '/update-menu': %}
-
-          <a class="menu-buttons remove-button" href="{{url_for('delete_menu_item', item_id=item.id)}}">
+          {% elif 'menu' in request.url: %}
+          <a class="menu-buttons remove-button" href="{{url_for('remove_menu_item', id=item.id)}}">
             <i class="fas fa-times-circle"></i>
           </a>
-          <a class="menu-buttons edit-button" href="{{url_for('edit_menu_item', item_id=item.id)}}">
+          <a class="menu-buttons edit-button" href="{{url_for('edit_menu_item', id=item.id)}}">
             <i class="fas fa-pencil-alt"></i>
           </a>
 
@@ -97,7 +90,6 @@
           {{ item.description }}
         </p>
       </div>
-
       {% endif %}
       {% endfor %}
       {% endfor %}
@@ -105,5 +97,4 @@
     </div>
     {% endfor %}
   </div>
-
 </div>

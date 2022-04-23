@@ -1,0 +1,95 @@
+{% block content %}
+{% include "header.html" %}
+
+<div class="container">
+  <div class="row main-row">
+
+    <!--MENU-->
+    <div class="col-md-7 left-side">
+      {% include "menu.html" %}
+    </div>
+
+    <!--RIGHT SIDE-->
+    <div class="col-md-5 right-side" style="background-color:#F3F5FF;">
+      {% include "navbar.html" %}
+
+      <!--CONTENT-->
+      <div class="start-order-form">
+
+        <form action="{{ url_for('start_order') }}" method="POST" novalidate>
+          {{ form.csrf_token }}
+
+          <table>
+            <tr>
+              <td></td>
+              <td class="form-field">
+                <h1 class="order-heading">
+                  ORDER
+                </h1>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="form-label">Table</td>
+              <td class="form-field">
+                {{ form.table() }}
+              </td>
+            </tr>
+
+            <tr>
+              <td class="form-label">Name</td>
+              <td class="form-field">
+                {{ form.name(size=33, placeholder='Customer Name') }}
+              </td>
+            </tr>
+
+            <tr>
+              <td class="form-label">Server</td>
+              <td class="start-order-user">
+                {{ current_user.full_name.upper() }}
+                <a class="order-logout" href="{{ url_for('logout') }}">logout
+                  <i class="fas fa-angle-double-right"></i>
+                </a>
+              </td>
+            </tr>
+
+            <tr>
+              <td></td>
+              <td>
+                {{ form.submit }}
+              </td>
+            </tr>
+
+            <tr>
+              <td></td>
+              <td>
+                {% for err in form.table.errors %}
+                <p class="form-error-msg">{{ err }}</p>
+                {% endfor %}
+                {% for err in form.name.errors %}
+                <p class="form-error-msg">{{ err }}</p>
+                {% endfor %}
+                <!--FLASH MESSAGES-->
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <span class="flashes">
+                  {% for message in messages %}
+                  <p class="flash-msg">{{ message }}</p>
+                  {% endfor %}
+                </span>
+                {% endif %}
+                {% endwith %}
+                <!-- END FLASH MESSAGES-->
+              </td>
+            </tr>
+          </table>
+
+        </form>
+      </div>
+      <!--END CONTENT-->
+
+    </div>
+  </div>
+</div>
+{% include "js.html" %}
+{% endblock %}
