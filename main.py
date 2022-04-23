@@ -289,21 +289,8 @@ def import_data():
 
 @app.route('/reset-app')
 def delete_data():
-    for mod in ItemMod.query.all():
-        mod.items = []
-        mod.vars = []
-    for var in ItemModVar.query.all():
-        var.order_items = []
-    User.query.delete()
-    MenuItem.query.delete()
-    ItemMod.query.delete()
-    ItemModVar.query.delete()
-    Category.query.delete()
-    Section.query.delete()
-    Role.query.delete()
-    Table.query.delete()
-    Order.query.delete()
-    OrderItem.query.delete()
+    for table in reversed(db.metadata.sorted_tables):
+        db.session.execute(table.delete())
     db.session.commit()
     return redirect(url_for('home'))
 
