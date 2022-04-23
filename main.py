@@ -59,7 +59,7 @@ def admin_only(function):
 
     @wraps(function)
     def decorated_function(*args, **kwargs):
-        if not current_user.is_authenticated or current_user.id != 1:
+        if not current_user.is_authenticated or current_user.role.name != 'Owner':
             return abort(403)
         return function(*args, **kwargs)
 
@@ -277,7 +277,6 @@ def import_data():
         for loop in range(1, 4):
             add_mod_var(new_item, data["mod" + str(loop)][index].title(), data["vars" + str(loop)][index])
         db.session.commit()
-        print(index)
         updates = True
 
     if updates:
@@ -312,6 +311,7 @@ def home():
     elif user_count == 0:
         new_role = Role(name="Owner")
         db.session.add(new_role)
+        db.session.commit()
         owner_user = User(
             full_name="SETUP ACCOUNT",
             email="your@mail.com",
@@ -798,7 +798,6 @@ def add_menu_item():
         for i in range(1, 4):
             mod_name = data['mod' + str(i)].title()
             var_data = data['vars' + str(i)].title()
-            print(mod_name, var_data)
 
             if mod_name and var_data:
                 add_mod_var(new_item, mod_name, var_data)
