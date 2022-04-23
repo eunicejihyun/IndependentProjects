@@ -310,12 +310,13 @@ def home():
     if current_user.is_authenticated:
         return redirect(url_for('start_order'))
     elif user_count == 0:
-        db.session.add(Role(name="Owner"))
+        new_role = Role(name="Owner")
+        db.session.add(new_role)
         owner_user = User(
             full_name="SETUP ACCOUNT",
             email="your@mail.com",
             password=generate_password_hash("password", method="pbkdf2:sha256", salt_length=8),
-            role_id=1,
+            role_id=new_role.id,
             status="active"
         )
         take_out = Table(
