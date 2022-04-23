@@ -98,6 +98,21 @@ a:hover {
   visibility: visible;
 }
 
+/* FOOTER */
+footer {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  background-color: white;
+  padding: 0 1rem;
+  font-size: 0.9rem;
+  color: gray;
+}
+
+a {
+  color: #5463FF;
+}
+
 /* BUTTONS */
 .menu-buttons {
   font-size: 0.6rem;

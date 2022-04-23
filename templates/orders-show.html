@@ -1,89 +1,64 @@
-{% block content %}
-{% include "header.html" %}
+<h1 class="right-heading">
+  ORDERS
+  <span class="right-subheading">In Progress</span>
+</h1>
 
-
-<div class="container">
-  <div class="row main-row">
-
-    <!--MENU-->
-    <div class="col-md-7 left-side">
-      {% include "menu.html" %}
-    </div>
-
-    <!--RIGHT SIDE-->
-    <div class="col-md-5 right-side">
-      {% include "navbar.html" %}
-
-      <!--CONTENT-->
-      <h1 class="right-heading">
-        ORDERS
-        <span class="right-subheading">In Progress</span>
-      </h1>
-
-      <div class="container show-orders">
-        <div class="show-orders-data">
-          <div class="row orders-header">
-            <div class="col-md-3">
-              Time
-            </div>
-            <div class="col-md-6">
-              Table #
-            </div>
-            <div class="col-md-3">
-              Action
-            </div>
-          </div>
-
-
-          {% for order in orders: %}
-          {% if current_user.id == 1 or current_user.id == order.user_id: %}
-          <div class="row orders-row">
-            <div class="col-md-3">
-              {{order.created_at[11:16]}}
-            </div>
-            <div class="col-md-6">
-              <strong>{{order.table.name}}:</strong> {{order.customer_name}}
-            </div>
-            <div class="col-md-3">
-              {% if current_user.id == 1: %}
-              <a class="show-order-btn remove-button" href="{{ url_for('cancel_order', id=order.id) }}">
-                <i class="fas fa-times-circle"></i>
-              </a>
-              {% endif %}
-              <a class="show-order-btn edit-button" href="{{ url_for('complete_order', id=order.id) }}">
-                <i class="fas fa-pencil-alt"></i>
-              </a>
-              <a class="show-order-btn check-button" href="{{ url_for('close_order', id=order.id) }}">
-                <i class="fas fa-check-circle"></i>
-              </a>
-            </div>
-          </div>
-          {% endif %}
-          {% endfor %}
-
-        </div>
+<div class="container show-orders">
+  <div class="show-orders-data">
+    <div class="row orders-header">
+      <div class="col-md-3">
+        Time
       </div>
-
-      <center>Lifetime Completed Sales:
-        <strong>{{ "$ %.2f"|format(total) }}</strong>
-        <br>
-
-        <!--FLASH MESSAGES-->
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <span class="flashes">
-          {% for message in messages %}
-          <p class="flash-msg">{{ message }}</p>
-          {% endfor %}
-        </span>
-        {% endif %}
-        {% endwith %}
-        <!-- END FLASH MESSAGES-->
-      </center>
-      <!--END CONTENT-->
-
+      <div class="col-md-6">
+        Table #
+      </div>
+      <div class="col-md-3">
+        Action
+      </div>
     </div>
+
+    {% for order in orders: %}
+    {% if current_user.id == 1 or current_user.id == order.user_id: %}
+    <div class="row orders-row">
+      <div class="col-md-3">
+        {{order.created_at[11:16]}}
+      </div>
+      <div class="col-md-6">
+        <strong>{{order.table.name}}:</strong> {{order.customer_name}}
+      </div>
+      <div class="col-md-3">
+        {% if current_user.id == 1: %}
+        <a class="show-order-btn remove-button" href="{{ url_for('cancel_order', id=order.id) }}">
+          <i class="fas fa-times-circle"></i>
+        </a>
+        {% endif %}
+        <a class="show-order-btn edit-button" href="{{ url_for('complete_order', id=order.id) }}">
+          <i class="fas fa-pencil-alt"></i>
+        </a>
+        <a class="show-order-btn check-button" href="{{ url_for('close_order', id=order.id) }}">
+          <i class="fas fa-check-circle"></i>
+        </a>
+      </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+
   </div>
 </div>
-{% include "js.html" %}
-{% endblock %}
+
+<center>Lifetime Completed Sales:
+  <strong>{{ "$ %.2f"|format(total) }}</strong>
+  <br>
+
+  <!--FLASH MESSAGES-->
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <span class="flashes">
+    {% for message in messages %}
+    <p class="flash-msg">{{ message }}</p>
+    {% endfor %}
+  </span>
+  {% endif %}
+  {% endwith %}
+  <!-- END FLASH MESSAGES-->
+</center>

@@ -287,7 +287,7 @@ def import_data():
 
 
 @app.route('/reset')
-def delete_data():
+def reset():
     for table in reversed(db.metadata.sorted_tables):
         db.session.execute(table.delete())
     db.session.commit()
@@ -312,6 +312,7 @@ def home():
         new_role = Role(name="Owner")
         db.session.add(new_role)
         db.session.commit()
+        print(new_role.id, new_role.name)
         owner_user = User(
             full_name="SETUP ACCOUNT",
             email="your@mail.com",
@@ -352,7 +353,7 @@ def login():
         else:
             flash('Employee ID is not registered in the database.')
             return redirect(url_for('login'))
-    return render_template('login.html', form=form, menu=menu, categories=categories, sections=sections)
+    return render_template('index.html', form=form, menu=menu, categories=categories, sections=sections)
 
 
 @login_manager.user_loader
@@ -370,6 +371,7 @@ def logout():
 #  FLASK ROUTES: TAKE AN ORDER
 # ---------------------------------------------------------------------------------------------------------------------
 @app.route('/start-order', methods=['GET', 'POST'])
+@login_required
 def start_order():
     menu, categories, sections = menu_create()
     form = StartOrderForm()
@@ -392,7 +394,7 @@ def start_order():
         db.session.add(new_order)
         db.session.commit()
         return redirect(url_for('complete_order'))
-    return render_template('order-start.html', form=form, menu=menu, categories=categories, sections=sections)
+    return render_template('index.html', form=form, menu=menu, categories=categories, sections=sections)
 
 
 @app.route('/complete-order', methods=['GET', 'POST'])
@@ -447,7 +449,7 @@ def complete_order():
         new_order_item.vars.extend(order_item_vars)
         db.session.commit()
         return redirect(url_for('complete_order', id=order.id))
-    return render_template('order-complete.html', form=form, menu=menu, categories=categories, sections=sections,
+    return render_template('index.html', form=form, menu=menu, categories=categories, sections=sections,
                            order=order)
 
 
@@ -515,7 +517,7 @@ def close_order():
 @admin_only
 def setup():
     menu, categories, sections = menu_create()
-    return render_template('setup.html', menu=menu, categories=categories, sections=sections)
+    return render_template('index.html', menu=menu, categories=categories, sections=sections)
 
 
 @app.route('/orders')
@@ -527,7 +529,7 @@ def show_orders():
     for x in closed_orders:
         for y in x.order_items:
             lifetime_total += y.subtotal
-    return render_template('orders-show.html', menu=menu, categories=categories, sections=sections, orders=orders,
+    return render_template('index.html', menu=menu, categories=categories, sections=sections, orders=orders,
                            total=lifetime_total)
 
 
@@ -548,7 +550,7 @@ def add_role():
             return redirect(url_for('add_role'))
         else:
             flash('ERROR: Role names must be unique')
-    return render_template('update-role-table.html', form=form, menu=menu, categories=categories, sections=sections,
+    return render_template('index.html', form=form, menu=menu, categories=categories, sections=sections,
                            roles=roles)
 
 
@@ -588,7 +590,7 @@ def add_user():
         db.session.commit()
         flash(f"Success! {new_user.full_name}'s ID is {new_user.id}")
         return redirect(url_for('add_user'))
-    return render_template('update-user.html', form=form, menu=menu, categories=categories, sections=sections,
+    return render_template('index.html', form=form, menu=menu, categories=categories, sections=sections,
                            users=users)
 
 
@@ -633,7 +635,7 @@ def edit_user():
     # SET DEFAULTS
     form.full_name.default, form.email.default, form.role.default = user.full_name, user.email, user.role.name
     form.process()
-    return render_template('update-user.html', form=form, menu=menu, categories=categories, sections=sections,
+    return render_template('index.html', form=form, menu=menu, categories=categories, sections=sections,
                            users=users)
 
 
@@ -656,7 +658,7 @@ def add_table():
             flash(f'Success: {new_table.name} added')
             return redirect(url_for('add_table'))
         flash('ERROR: Table names must be unique')
-    return render_template('update-role-table.html', form=form, menu=menu, categories=categories, sections=sections,
+    return render_template('index.html', form=form, menu=menu, categories=categories, sections=sections,
                            tables=tables)
 
 
@@ -698,7 +700,7 @@ def add_category():
 
         flash(f'Success! {data["category"].upper()} added')
         return redirect(url_for('add_category'))
-    return render_template('update-category.html', form=form, menu=menu, categories=categories, sections=sections)
+    return render_template('index.html', form=form, menu=menu, categories=categories, sections=sections)
 
 
 @app.route('/edit-category', methods=['GET', 'POST'])
@@ -742,7 +744,7 @@ def edit_category():
     current_sections = ','.join([section.name for section in category.sections])
     form.category.default, form.sections.default = category.name, current_sections
     form.process()
-    return render_template('update-category.html', form=form, menu=menu, categories=categories, sections=sections)
+    return render_template('index.html', form=form, menu=menu, categories=categories, sections=sections)
 
 
 @app.route('/remove-category', methods=['GET', 'POST'])
@@ -764,7 +766,7 @@ def remove_category():
 # ---------------------------------------------------------------------------------------------------------------------
 #  FLASK ROUTES: EDIT MENU ITEMS
 # ---------------------------------------------------------------------------------------------------------------------
-@app.route('/update-menu', methods=['GET', 'POST'])
+@app.route('/add-menu-item', methods=['GET', 'POST'])
 @admin_only
 def add_menu_item():
     menu, categories, sections = menu_create()
@@ -806,7 +808,7 @@ def add_menu_item():
 
         return redirect(url_for('add_menu_item'))
 
-    return render_template('update-menu.html', form=form, menu=menu, categories=categories, sections=sections)
+    return render_template('index.html', form=form, menu=menu, categories=categories, sections=sections)
 
 
 @app.route('/edit-menu-item/<int:id>', methods=['GET', 'POST'])
@@ -883,7 +885,7 @@ def edit_menu_item(id):
     form.vars1.default, form.vars2.default, form.vars3.default = add_padding(3, list(current_mod_vars.values()))
     form.process()
 
-    return render_template('update-menu.html', form=form, menu=menu, categories=categories, sections=sections,
+    return render_template('index.html', form=form, menu=menu, categories=categories, sections=sections,
                            item_id=id)
 
 

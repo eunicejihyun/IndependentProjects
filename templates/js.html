@@ -1,5 +1,98 @@
+<!--JS SCRIPTS-->
 <script crossorigin="anonymous"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+<script>
+
+<!--COMPLETE ORDER-->
+{% if 'complete-order' in request.url: %}
+
+  $(".menu-buttons").click(function() {
+    let itemID = this.id.substr(1);
+    fetch('/details/item/' + itemID).then(function(response) {
+      response.json().then(function(data) {
+        $("option").parentsUntil(".container-fluid").removeClass('no-show');
+        for (let i = 1; i < 4; i++) {
+          $("#mod" + i).empty();
+        }
+        $("#item_id").val(data.id);
+        $("#item_id").addClass('no-show');
+        $("#modal-title").text(data.name);
+        $("#modal-desc").html('$<span id="modal-price">' + data.price + '</span>  ' + data.description);
+        $("#modal-subtotal").text('$ ' + data.price);
+
+        for (let i = 0; i < data.mods.length; i++) {
+          $(".modal-mod-name").eq(i).text(data.mods[i][0]);
+
+          let options = '';
+          for (let mod of data.mods[i][1]) {
+            options += '<option value="' + mod + '">' + mod + '</option>'
+          }
+          j = i + 1;
+          $("#mod" + j).html(options)
+        }
+        $('[name*="mod"]:empty').html('<option value="null"></option>');
+        $('[value="null"]').parentsUntil(".container-fluid").addClass('no-show');
+
+      });
+    });
+  });
+
+  $("#quantity").change(function() {
+
+    let quant = $("#quantity").val();
+    let price = $("#modal-price").text();
+    $("#modal-subtotal").text('$ ' + quant * price);
+  });
+
+
+<!--  UPDATE CATEGORY-->
+{% elif 'category' in request.url: %}
+$("#category").focus()
+
+
+<!--UPDATE MENU-->
+{% elif 'menu-item' in request.url: %}
+ $("#name").focus()
+
+  function updateSections() {
+    let categoryName = $("#category").val();
+    fetch('/details/category/' + categoryName).then(function(response) {
+      response.json().then(function(data) {
+        let options = '';
+        for (let i = 0; i < data.sections.length; i++) {
+          let section = data.sections[i]
+          options += '<option value="' + section + '">' + section + '</option>'
+        }
+        $("#section").html(options)
+      });
+    });
+  }
+
+  {% if 'update' in request.url: %}
+  updateSections();
+  {% endif %}
+
+  $("#category").change(updateSections);
+
+
+<!--UPDATE ROLE/TABLE-->
+{% elif 'role' in request.url or 'table' in request.url: %}
+$("#field").focus()
+
+
+<!--UPDATE USER-->
+{% elif 'user' in request.url: %}
+$("#full_name").focus()
+
+
+<!--LOGIN-->
+{% elif 'login' in request.url: %}
+$("#employee_id").focus()
+
+
+{% endif %}
+</script>

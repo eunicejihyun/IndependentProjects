@@ -1,247 +1,185 @@
-{% block content %}
-{% include "header.html" %}
 {% set order_id = request.args.get("order_id") %}
 
-<div class="container">
-  <div class="row main-row">
+<h1 class="right-heading">
+  ORDER
+  <span class="right-subheading"> {{ order.table.name }} - {{ order.customer_name }}</span>
+</h1>
 
-    <!--MENU-->
-    <div class="col-md-7 left-side">
-      {% include "menu.html" %}
-    </div>
+<div class="order-items">
+  <div class="container-fluid oi-container">
 
-    <!--RIGHT SIDE-->
-    <div class="col-md-5 right-side">
-      {% include "navbar.html" %}
+    {% if order.order_items|length == 0 %}
+    Nothing yet!
+    {% endif %}
 
-      <!--CONTENT-->
-      <h1 class="right-heading">
-        ORDER
-        <span class="right-subheading"> {{ order.table.name }} - {{ order.customer_name }}</span>
-      </h1>
-
-      <div class="order-items">
-        <div class="container-fluid oi-container">
-
-          {% if order.order_items|length == 0 %}
-          Nothing yet!
-          {% endif %}
-
-          {% for x in order.order_items: %}
-          <div class="row">
-            <div class="col-md-1 order-item-quantity no-padding">
-              {{ x.quantity }}
-            </div>
-            <div class="col-md-8">
-              <span class="order-item-name">
-                {{ x.item.name }}
-              </span>
-              <a class="menu-buttons remove-button" href="{{url_for('delete_order_item', id=x.id)}}">
-                <i class="fas fa-times-circle"></i>
-              </a>
-              <div>
-                <span class="order-item-mods">
-                  {% for y in x.vars: %}
-                  {{ y.name }}
-                  {% if not loop.last %}
-                  ,
-                  {% endif %}
-                  {% endfor %}
-                </span>
-                <p class="order-item-notes">
-                  {{ x.notes }}
-                </p>
-              </div>
-            </div>
-            <div class="col-md-3 order-item-price">
-              {{ "$ %.2f"|format(x.subtotal) }}
-            </div>
-          </div>
-
-          {% endfor %}
+    {% for x in order.order_items: %}
+    <div class="row">
+      <div class="col-md-1 order-item-quantity no-padding">
+        {{ x.quantity }}
+      </div>
+      <div class="col-md-8">
+        <span class="order-item-name">
+          {{ x.item.name }}
+        </span>
+        <a class="menu-buttons remove-button" href="{{url_for('delete_order_item', id=x.id)}}">
+          <i class="fas fa-times-circle"></i>
+        </a>
+        <div>
+          <span class="order-item-mods">
+            {% for y in x.vars: %}
+            {{ y.name }}
+            {% if not loop.last %}
+            ,
+            {% endif %}
+            {% endfor %}
+          </span>
+          <p class="order-item-notes">
+            {{ x.notes }}
+          </p>
         </div>
       </div>
+      <div class="col-md-3 order-item-price">
+        {{ "$ %.2f"|format(x.subtotal) }}
+      </div>
+    </div>
 
-      <!-- Modal -->
-      <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="add-order-item" tabindex="-1">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="modal-title">
-                Modal title
-              </h5>
-              <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Modal -->
+<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="add-order-item" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-title">
+          Modal title
+        </h5>
+        <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+      </div>
+
+      {% set order_id = request.args.get('id') %}
+      <form action="{{ url_for('complete_order', id=order_id) }}" method="POST" novalidate>
+        {{ form.csrf_token }}
+
+        <div class="modal-body">
+
+          <div class="modal-description" id="modal-desc">
+            item description
+            <span id="modal-price"> $ </span>
+          </div>
+
+          <div class="container-fluid">
+
+            {% for x in range(3): %}
+            <div class="row">
+              <div class="col-md-3 form-label modal-padding modal-mod-name">
+                mod{{ x }}
+              </div>
+              <div class="col-md-7 form-field modal-padding modal-mod-opt">
+
+                {% if loop.index == 1: %}
+                {{ form.mod1() }}
+                {% for err in form.mod1.errors %}
+                <p class="form-error-msg">{{ err }}</p>
+                {% endfor %}
+
+                {% elif loop.index == 2: %}
+                {{ form.mod2() }}
+                {% for err in form.mod2.errors %}
+                <p class="form-error-msg">{{ err }}</p>
+                {% endfor %}
+
+                {% elif loop.index == 3: %}
+                {{ form.mod3() }}
+                {% for err in form.mod3.errors %}
+                <p class="form-error-msg">{{ err }}</p>
+                {% endfor %}
+                {% endif %}
+              </div>
             </div>
+            {% endfor %}
 
-            {% set order_id = request.args.get('id') %}
-            <form action="{{ url_for('complete_order', id=order_id) }}" method="POST" novalidate>
-              {{ form.csrf_token }}
+            <div class="row">
+              <div class="col-md-6 form-field">
+                {{ form.notes(placeholder='Notes for the Chef') }}
+                {% for err in form.notes.errors %}
+                <p class="form-error-msg">{{ err }}</p>
+                {% endfor %}
+              </div>
 
-              <div class="modal-body">
-
-                <div class="modal-description" id="modal-desc">
-                  item description
-                  <span id="modal-price"> $ </span>
-                </div>
+              <div class="col-md-6">
 
                 <div class="container-fluid">
-
-                  {% for x in range(3): %}
                   <div class="row">
-                    <div class="col-md-3 form-label modal-padding modal-mod-name">
-                      mod{{ x }}
+                    <div class="col-md-6 form-label modal-padding">
+                      Quantity
                     </div>
-                    <div class="col-md-7 form-field modal-padding modal-mod-opt">
-
-                      {% if loop.index == 1: %}
-                      {{ form.mod1() }}
-                      {% for err in form.mod1.errors %}
-                      <p class="form-error-msg">{{ err }}</p>
-                      {% endfor %}
-
-                      {% elif loop.index == 2: %}
-                      {{ form.mod2() }}
-                      {% for err in form.mod2.errors %}
-                      <p class="form-error-msg">{{ err }}</p>
-                      {% endfor %}
-
-                      {% elif loop.index == 3: %}
-                      {{ form.mod3() }}
-                      {% for err in form.mod3.errors %}
-                      <p class="form-error-msg">{{ err }}</p>
-                      {% endfor %}
-                      {% endif %}
-                    </div>
-                  </div>
-                  {% endfor %}
-
-                  <div class="row">
-                    <div class="col-md-6 form-field">
-                      {{ form.notes(placeholder='Notes for the Chef') }}
+                    <div class="col-md-6 form-field modal-padding">
+                      {{ form.quantity() }}
                       {% for err in form.notes.errors %}
                       <p class="form-error-msg">{{ err }}</p>
                       {% endfor %}
                     </div>
+                  </div>
 
-                    <div class="col-md-6">
-
-                      <div class="container-fluid">
-                        <div class="row">
-                          <div class="col-md-6 form-label modal-padding">
-                            Quantity
-                          </div>
-                          <div class="col-md-6 form-field modal-padding">
-                            {{ form.quantity() }}
-                            {% for err in form.notes.errors %}
-                            <p class="form-error-msg">{{ err }}</p>
-                            {% endfor %}
-                          </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-md-6 form-label modal-padding">
-                            Subtotal
-                          </div>
-                          <div class="col-md-6 form-field modal-padding" id="modal-subtotal">
-                            $ X
-                          </div>
-                        </div>
-
-                      </div>
-
-                      <div class="modal-add">
-                        {{ form.item_id() }}
-                        {{ form.add }}
-                      </div>
+                  <div class="row">
+                    <div class="col-md-6 form-label modal-padding">
+                      Subtotal
+                    </div>
+                    <div class="col-md-6 form-field modal-padding" id="modal-subtotal">
+                      $ X
                     </div>
                   </div>
+
+                </div>
+
+                <div class="modal-add">
+                  {{ form.item_id() }}
+                  {{ form.add }}
                 </div>
               </div>
-            </form>
+            </div>
           </div>
         </div>
-      </div>
-      <!-- END -->
-
-
-      <div class="container-fluid oi-bottom-container">
-        <div class="row order-flash">
-          <!--FLASH MESSAGES-->
-          {% with messages = get_flashed_messages() %}
-          {% if messages %}
-          <span class="flashes">{% for message in messages %}
-            <p class="flash-msg">{{ message }}</p>
-            {% endfor %}
-          </span>
-          {% endif %}
-          {% endwith %}
-          <!-- END FLASH MESSAGES-->
-        </div>
-        <div class="row oi-bottom-row">
-          <div class="col-md-8 order-item-price">
-            Total:
-          </div>
-          <div class="col-md-4 order-item-price">
-            {{ "$ %.2f"|format( order.order_items | sum(attribute='subtotal') )}}
-          </div>
-        </div>
-        <div class="row oi-bottom-row">
-          <div class="col-md-4">
-            <a class="btn cancel-btn" href="{{ url_for('cancel_order', id=order.id) }}" type="button">
-              Delete
-            </a>
-          </div>
-          <div class="col-md-4 offset-md-4">
-            <a class="btn submit-btn" href="{{ url_for('submit_order', id=order.id) }}" type="button">
-              Submit
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!--END CONTENT-->
+      </form>
     </div>
   </div>
 </div>
+<!-- END -->
 
-{% include "js.html" %}
-<script>
-  $(".menu-buttons").click(function() {
-    let itemID = this.id.substr(1);
-    fetch('/details/item/' + itemID).then(function(response) {
-      response.json().then(function(data) {
-        $("option").parentsUntil(".container-fluid").removeClass('no-show');
-        for (let i = 1; i < 4; i++) {
-          $("#mod" + i).empty();
-        }
-        $("#item_id").val(data.id);
-        $("#item_id").addClass('no-show');
-        $("#modal-title").text(data.name);
-        $("#modal-desc").html('$<span id="modal-price">' + data.price + '</span>  ' + data.description);
-        $("#modal-subtotal").text('$ ' + data.price);
 
-        for (let i = 0; i < data.mods.length; i++) {
-          $(".modal-mod-name").eq(i).text(data.mods[i][0]);
-
-          let options = '';
-          for (let mod of data.mods[i][1]) {
-            options += '<option value="' + mod + '">' + mod + '</option>'
-          }
-          j = i + 1;
-          $("#mod" + j).html(options)
-        }
-        $('[name*="mod"]:empty').html('<option value="null"></option>');
-        $('[value="null"]').parentsUntil(".container-fluid").addClass('no-show');
-
-      });
-    });
-  });
-
-  $("#quantity").change(function() {
-
-    let quant = $("#quantity").val();
-    let price = $("#modal-price").text();
-    $("#modal-subtotal").text('$ ' + quant * price);
-  });
-</script>
-{% endblock %}
+<div class="container-fluid oi-bottom-container">
+  <div class="row order-flash">
+    <!--FLASH MESSAGES-->
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <span class="flashes">{% for message in messages %}
+      <p class="flash-msg">{{ message }}</p>
+      {% endfor %}
+    </span>
+    {% endif %}
+    {% endwith %}
+    <!-- END FLASH MESSAGES-->
+  </div>
+  <div class="row oi-bottom-row">
+    <div class="col-md-8 order-item-price">
+      Total:
+    </div>
+    <div class="col-md-4 order-item-price">
+      {{ "$ %.2f"|format( order.order_items | sum(attribute='subtotal') )}}
+    </div>
+  </div>
+  <div class="row oi-bottom-row">
+    <div class="col-md-4">
+      <a class="btn cancel-btn" href="{{ url_for('cancel_order', id=order.id) }}" type="button">
+        Delete
+      </a>
+    </div>
+    <div class="col-md-4 offset-md-4">
+      <a class="btn submit-btn" href="{{ url_for('submit_order', id=order.id) }}" type="button">
+        Submit
+      </a>
+    </div>
+  </div>
+</div>

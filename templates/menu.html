@@ -47,8 +47,7 @@
   <div class="menu-content tab-content" id="nav-tabContent">
 
     {% for category in categories: %}
-    <div aria-labelledby="{{ category.name }}-tab" class="tab-pane fade show {% if loop.first %}active{% endif %}"
-         id="{{ category.name }}" role="tabpanel">
+    <div aria-labelledby="{{ category.name }}-tab" class="tab-pane fade show {% if loop.first %}active{% endif %}" id="{{ category.name }}" role="tabpanel">
 
       {% for section in sections: %}
       {% if section.category.id == category.id: %}

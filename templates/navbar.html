@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row">
 
-      {% if current_user.role.name == Owner: %}
+      {% if current_user.role.name == "Owner": %}
       {% set width = "col-md-3" %}
       {% else: %}
       {% set width = "col-md-4" %}
@@ -20,7 +20,7 @@
           <span class="navlabel">orders</span>
         </a>
       </div>
-      {% if current_user.role.name == Owner: %}
+      {% if current_user.role.name == "Owner": %}
       <div class="col-md-3 nav-item dropdown">
         <a class="navitem dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
           <i class="fas fa-cog"></i>
@@ -31,9 +31,11 @@
           <li><a class="dropdown-item" href="{{ url_for('add_table') }}">Update Tables</a></li>
           <li><a class="dropdown-item" href="{{ url_for('add_category') }}">Update Menu Categories</a></li>
           <li><a class="dropdown-item" href="{{ url_for('add_menu_item') }}">Update Menu Items</a></li>
-          <li><hr class="dropdown-divider"></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
           <li><a class="dropdown-item" href="{{ url_for('import_data') }}">Import Prepared Menu</a></li>
-          <li><a class="dropdown-item" href="{{ url_for('delete_data') }}">Reset App</a></li>
+          <li><a class="dropdown-item" href="{{ url_for('reset') }}">Reset App</a></li>
         </ul>
         <span class="navlabel">settings</span>
       </div>
@@ -43,7 +45,6 @@
           <i class="fas fa-sign-out-alt"></i>
           <span class="navlabel">logout</span>
         </a>
-
       </div>
     </div>
   </div>

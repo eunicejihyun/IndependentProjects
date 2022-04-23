@@ -1,50 +1,27 @@
-{% block content %}
-{% include "header.html" %}
+<h1 class="right-heading">
+  Welcome!
+  <span class="right-subheading">Setup Roadmap</span>
+</h1>
 
-<div class="container">
-  <div class="row main-row">
+<ol class="settings">
+  <li>
+    <a href="{{ url_for('add_role') }}">Add Roles</a>
+  </li>
+  <li>
+    <a href="{{ url_for('add_user') }}">Add Users</a>
+  </li>
+  <li>
+    <a href="{{ url_for('add_table') }}">Add Table Names</a>
+  </li>
+  <li>
+    <a href="{{ url_for('add_category') }}">Add Menu Categories</a>
+  </li>
+  <li>
+    <a href="{{ url_for('add_menu_item') }}">Add Menu Items</a>
+  </li>
+</ol>
 
-    <!--MENU-->
-    <div class="col-md-7 left-side">
-      {% include "menu.html" %}
-    </div>
-
-    <!--RIGHT SIDE-->
-    <div class="col-md-5 right-side">
-      {% include "navbar.html" %}
-
-      <!--CONTENT-->
-      <h1 class="right-heading">
-        Welcome!
-        <span class="right-subheading">Setup Roadmap</span>
-      </h1>
-
-      <ol class="settings">
-        <li>
-          <a href="{{ url_for('add_role') }}">Add Roles</a>
-        </li>
-        <li>
-          <a href="{{ url_for('add_user') }}">Add Users</a>
-        </li>
-        <li>
-          <a href="{{ url_for('add_table') }}">Add Table Names</a>
-        </li>
-        <li>
-          <a href="{{ url_for('add_category') }}">Add Menu Categories</a>
-        </li>
-        <li>
-          <a href="{{ url_for('add_menu_item') }}">Add Menu Items</a>
-        </li>
-      </ol>
-
-      <a class="btn next-btn" href="{{ url_for('add_role') }}" type="button">
-        Let's go!
-        <i class="fas fa-angle-double-right"></i>
-      </a>
-      <!--END CONTENT-->
-
-    </div>
-  </div>
-</div>
-{% include "js.html" %}
-{% endblock %}
+<a class="btn next-btn" href="{{ url_for('add_role') }}" type="button">
+  Let's go!
+  <i class="fas fa-angle-double-right"></i>
+</a>
