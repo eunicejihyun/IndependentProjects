@@ -10,12 +10,12 @@ db = SQLAlchemy()
 item__mod = db.Table(
     'item__mod',
     db.Column('item_id', db.Integer, db.ForeignKey('item.id'), primary_key=True),
-    db.Column('mod_id', db.Integer, db.ForeignKey('mod.id'), primary_key=True)
+    db.Column('mod_id', db.Integer, db.ForeignKey('modification.id'), primary_key=True)
 )
 
 mod__var = db.Table(
     'mod__var',
-    db.Column('mod_id', db.Integer, db.ForeignKey('mod.id'), primary_key=True),
+    db.Column('mod_id', db.Integer, db.ForeignKey('modification.id'), primary_key=True),
     db.Column('var_id', db.Integer, db.ForeignKey('var.id'), primary_key=True)
 )
 
@@ -63,7 +63,7 @@ class ItemMod(db.Model):
     """
     basically a label for a package of vars
     """
-    __tablename__ = "mod"
+    __tablename__ = "modification"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable=False)
     items = relationship("MenuItem", secondary=item__mod, back_populates="mods")
