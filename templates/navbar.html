@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row">
 
-      {% if current_user.id == 1: %}
+      {% if current_user.role.name == Owner: %}
       {% set width = "col-md-3" %}
       {% else: %}
       {% set width = "col-md-4" %}
@@ -20,7 +20,7 @@
           <span class="navlabel">orders</span>
         </a>
       </div>
-      {% if current_user.id == 1: %}
+      {% if current_user.role.name == Owner: %}
       <div class="col-md-3 nav-item dropdown">
         <a class="navitem dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
           <i class="fas fa-cog"></i>

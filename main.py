@@ -286,7 +286,7 @@ def import_data():
     return redirect(url_for('home'))
 
 
-@app.route('/reset-app')
+@app.route('/reset')
 def delete_data():
     for table in reversed(db.metadata.sorted_tables):
         db.session.execute(table.delete())
