@@ -99,7 +99,7 @@
         <a class="menu-buttons edit-button" href="{{url_for('edit_user', id=x.id)}}">
           <i class="fas fa-pencil-alt"></i>
         </a>
-        {% if x.id != 1: %}
+        {% if x.role.name != "Owner": %}
         <a class="menu-buttons remove-button" href="{{url_for('remove_user', id=x.id)}}">
           <i class="fas fa-times-circle"></i>
         </a>
