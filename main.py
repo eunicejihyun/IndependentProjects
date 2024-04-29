@@ -11,7 +11,12 @@ import csv
 import os
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
+
+# IN PRODUCTION
+# app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
+SECRET_KEY = os.urandom(32)
+app.config['SECRET_KEY'] = SECRET_KEY
+
 Bootstrap(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
